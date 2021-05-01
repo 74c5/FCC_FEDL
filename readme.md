@@ -1,8 +1,14 @@
-Directory of Front End Library Projects for freecodecamp.org curriculum.
+Directory of Front End Developement Library Projects for freecodecamp.org curriculum.
 
 ### menu
 - Intro
 - Random Quote Machine - project 1
+
+## Introduction
+
+The aim of these projects it to practice the use and setup of Developement Libraries and work out issues with interdependencies.
+A secondary concern is coming to grips with a workable build system.
+Though not unimportant in real world projects, overall look and design of any presentation of sites takes tertiary priority, with precidence given to the above concerns and completing the challenges expediciously. :-)
 
 
 ## Random Quote Machine - Project 1
