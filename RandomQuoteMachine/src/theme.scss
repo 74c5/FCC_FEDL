@@ -1,0 +1,28 @@
+// To over-ride bootstrap defaults this file must be imported before bootstrap classes
+// Variables here will over-ride defaults
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+
+// for our puposes we need a list of colours, 
+// which are used to set a common backdrop and accent color
+$theme-colors: (
+  "primary":    $primary,
+  "secondary":  $secondary,
+  "success":    $success,
+  "info":       $info,
+  "warning":    $warning,
+  "danger":     $danger,
+  "light":      $light,
+  "dark":       $dark,
+  "mytheme1":   $blue-500,
+  "mytheme2":   $indigo-500,
+  "mytheme3":   $purple-500,
+  "mytheme4":   $pink-500,
+  "mytheme5":   $red-500,
+  "mytheme6":   $orange-500,
+  "mytheme7":   $yellow-500,
+  "mytheme8":   $green-500,
+  "mytheme9":   $teal-500,
+  "mytheme10":  $cyan-500,
+);
+
