@@ -3,8 +3,6 @@ import { useSelector } from 'react-redux';
 import QuoteBox from './quote-box';
 import './App.scss';
 
-const themeID = 5;
-
 const App = () => {
   const themeID = useSelector(state => state.themeID);
   
