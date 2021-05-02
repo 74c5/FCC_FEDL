@@ -10,16 +10,15 @@ export const getNewQuote = (dispatch, getState) => {
 
     fetch('https://api.quotable.io/random?tags=technology') // use { "mode": "no-cors" } - if cors headers not returned correctly
         .then( response => {
-          console.log(response);
-          // console.log(response.json())
           return response.json(); 
         })
         .then( data => {
-            console.log(data.content);
-            console.log(data.author);
             dispatch({type: NEW_QUOTE, payload: {quote: data.content, author: data.author}});
         })
-        .catch((err) => { console.log(err);})
+        .catch((err) => { 
+            console.log(err);
+            dispatch({type: NEW_QUOTE, payload: {quote: "An error occured retrieving a fresh quote", author: "Mista Computa"}});
+        })
 };
 
 const defaultStore = {
@@ -31,7 +30,6 @@ const defaultStore = {
 
 // reducers
 const quoteReducer = (store=defaultStore, action) => {
-    console.log(action);
     switch (action.type) {
         case NEW_QUOTE:
             return {
