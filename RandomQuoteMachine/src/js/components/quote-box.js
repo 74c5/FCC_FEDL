@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getNewQuote } from "../store/reducer";
 
 const QuoteBox = () => {
-    const {quote, author, themeID} = useSelector(state => state);
+    const {quote, author, status, themeID} = useSelector(state => state);
 
     const dispatch = useDispatch();
     const newQuote = (event) => {
@@ -12,11 +12,11 @@ const QuoteBox = () => {
     };
 
 
-    if (quote == "") {
+    if (status == 'idle' && quote.length === 0) {
         dispatch(getNewQuote);
         return (
             <div id="quote-box" className="col-6 offset-3 rounded-3 bg-light p-4">
-                <p>...Retrieving a fresh quote.</p>
+                <p>...Busy retrieving a fresh quote.</p>
             </div>
         );
     }
@@ -36,7 +36,7 @@ const QuoteBox = () => {
                 
                 {/* <div className={"container overflow-hidden"}> */}
                 <div className={"d-flex justify-content-between align-items-center"}>
-                    <a id="tweet-quote" target="_blank" className={`btn btn-sm btn-outline-mytheme${themeID} text-decoration-none`}
+                    <a id="tweet-quote" target="_blank" rel="noreferrer" className={`btn btn-sm btn-outline-mytheme${themeID} text-decoration-none`}
                        href={`https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text="${quote}" ~${author}`}>
                         <i className={"bi bi-twitter"} role={"img"} aria-label={"twitter"}></i>
                         <span> tweet me!</span>
