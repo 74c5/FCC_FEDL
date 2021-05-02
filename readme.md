@@ -1,8 +1,5 @@
 Directory of Front End Developement Library Projects for freecodecamp.org curriculum.
 
-### menu
-- Intro
-- Random Quote Machine - project 1
 
 ## Introduction
 
@@ -10,8 +7,16 @@ The aim of these projects it to practice the use and setup of Developement Libra
 A secondary concern is coming to grips with a workable build system.
 Though not unimportant in real world projects, overall look and design of any presentation of sites takes tertiary priority, with precidence given to the above concerns and completing the challenges expediciously. :-)
 
+## Project Directory
+
+https://74c5.github.io/FCC_FrontEndDevelopmentLibraries/
+
+https://74c5.github.io/FCC_FrontEndDevelopmentLibraries/RandomQuoteMachine/Snapshot/
+
 
 ## Random Quote Machine - Project 1
+
+https://74c5.github.io/FCC_FrontEndDevelopmentLibraries/RandomQuoteMachine/Snapshot/
 
 Deliberately fast and nasty - i.e. a prototype system.
 No (minimal) buildling or build tools (which made some things more difficult).
