@@ -9,6 +9,7 @@ when complete:
 - build and add link to hosted project page
 
 Tweaks
+- fetch error handling
 - how to make main color white on buttons - with lighter themes?
 - favicon
 - fancy quotations for quoted text
