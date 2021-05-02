@@ -14,7 +14,7 @@ Libraries used:
 - ... and all their associated dependencies
 
 
-Quotes used API is 'http://quotes.stormconsultancy.co.uk/random.json'
+Quotes used API is 'https://api.quotable.io/random?tags=technology'
 
 ## Notes
 
