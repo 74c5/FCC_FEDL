@@ -13,7 +13,7 @@ const QuoteBox = () => {
 
 
     if (quote == "") {
-        setTimeout( () => dispatch(getNewQuote), 3000);
+        dispatch(getNewQuote);
         return (
             <div id="quote-box" className="col-6 offset-3 rounded-3 bg-light p-4">
                 <p>...Retrieving a fresh quote.</p>
