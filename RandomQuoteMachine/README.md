@@ -1,4 +1,6 @@
-# Random Quote Machine Project
+# Random Quote Machine - Project 1
+
+[Demo](https://74c5.github.io/FCC_FrontEndDevelopmentLibraries/RandomQuoteMachine/snapshot/)
 
 Project 1 of freecodecamp.org 'Front End Developement Libraries' course. 
 
@@ -7,14 +9,25 @@ The project goal of the project is utilise several front end libraries (and inte
 Libraries used:
 - [React](https://reactjs.org)
 - [Redux](https://redux.js.org) (for global state)
-- [Sass](https://sass-lang.com) (Javascript based)
+- [Sass](https://sass-lang.com) (Javascript based - not used much)
 - [Bootstrap](https://getbootstrap.com)
 - [Bootstrap Icons](https://icons.getbootstrap.com)
 - [Google Fonts](https://fonts.google.com)
 - ... and all their associated dependencies
 
+I used 'https://api.quotable.io/random?tags=technology' as a rest API for random quotes.
 
-Quotes used API is 'https://api.quotable.io/random?tags=technology'
+
+## Lessons Learned
+
+Initially, tried to deploy with minimal inclusion of scripts in base html, but quickly ran into problems with adding Redux.
+Thus developed the template project using 'create-react-app' as a base.
+
+I'm not a fan of bootstrap. I can see how it's convenient to code functionality (e.g. buttons) straight into the html and there is almost no CSS/SASS. For simple sites this could be really useful. But...
+- I found the layouts system non-intuitive. 
+- It took just as long to look up how to do things in bootstrap as it would have don't to code in SASS or CSS in the first place.
+- I had issues getting buttons inside collumns to line up - this would have been easy, if I'd just used grid or flex-box.
+- Also my html looks really cluttered, making it harder to somewhat hard to figure out what is going on. It would be worse if I was altering my layout significantly for different screen sizes. It's just a mess of classes.
 
 ## Notes
 
