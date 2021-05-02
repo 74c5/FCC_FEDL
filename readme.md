@@ -11,12 +11,12 @@ Though not unimportant in real world projects, overall look and design of any pr
 
 https://74c5.github.io/FCC_FrontEndDevelopmentLibraries/
 
-https://74c5.github.io/FCC_FrontEndDevelopmentLibraries/RandomQuoteMachine/Snapshot/
+https://74c5.github.io/FCC_FrontEndDevelopmentLibraries/RandomQuoteMachine/snapshot/
 
 
 ## Random Quote Machine - Project 1
 
-https://74c5.github.io/FCC_FrontEndDevelopmentLibraries/RandomQuoteMachine/Snapshot/
+https://74c5.github.io/FCC_FrontEndDevelopmentLibraries/RandomQuoteMachine/snapshot/
 
 Deliberately fast and nasty - i.e. a prototype system.
 No (minimal) buildling or build tools (which made some things more difficult).
