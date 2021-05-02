@@ -5,7 +5,7 @@ const NEW_QUOTE = 'new-quote';
 
 // action functions
 export const getNewQuote = (dispatch, getState) => (
-    fetch('http://quotes.stormconsultancy.co.uk/random.json')
+    fetch('https://quotes.stormconsultancy.co.uk/random.json')
         .then( response => response.json() )
         .then( data => {
             console.log(data.author);
