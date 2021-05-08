@@ -5,7 +5,7 @@ import './App.scss';
 
 const App = () => {
   return (
-    <div id="react-app" className="container-fluid">
+    <div id="react-app" className="container">
       <Counter />
     </div>
   );
