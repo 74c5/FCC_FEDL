@@ -35,6 +35,10 @@
 - Redux Hookup
     - [x] push input to output
 
+- [x] test build and serve
+- [x] update project readme.md
+- github links ?check?
+
 
 - Redux :use slices instead of old style reducers
     - deferred since this project is simple and 
