@@ -1,0 +1,86 @@
+#drum-machine {
+    display: grid;
+    grid-template-columns: repeat(3, 10vw) calc(30vw + 20px);
+    grid-template-rows: repeat(2, max-content) repeat(3, 10vw);
+    grid-template-areas: "hd hd hd hd" "dis dis dis pow" "Q W E vol" "A S D bs" "Z X C bs";
+    gap: 10px;
+    padding: 20px ;
+    // min-width: 65vw;
+    // max-width: calc(100vw - 50px);
+    border-radius: 10px;
+    box-shadow: 1px 1px 1px darkgray, -1px -1px 1px darkgray;
+}
+  
+#drum-machine.mobileView {
+    margin:10px;
+    padding: 10px;
+    grid-template-columns: repeat(3, calc( calc(100vw - 70px) / 3)) ;
+    grid-template-rows: repeat(4, max-content) repeat(3, calc( calc(100vw - 70px) / 3)) max-content;
+    grid-template-areas: "hd hd hd" "pow pow pow" "vol vol vol" "dis dis dis" "Q W E" "A S D" "Z X C" "bs bs bs";
+}
+
+
+#drum-machine > h3 {
+    grid-area: hd;
+    text-align: center;
+    margin-bottom: 0.5em;
+}
+
+#display {
+    grid-area: dis;
+}
+
+#power-switch {
+    grid-area: pow;
+}
+
+#drumboard {
+    grid-area: dbd;
+}
+
+#volume-panel {
+    grid-area: vol;
+}
+
+#bank-select {
+    grid-area: bs;
+    align-self: center;
+    justify-self: center;
+}
+
+#pad-Q {
+    grid-area: Q;
+}
+
+#pad-W {
+    grid-area: W;
+}
+
+#pad-E {
+    grid-area: E;
+}
+
+#pad-A {
+    grid-area: A;
+}
+
+#pad-S {
+    grid-area: S;
+}
+
+#pad-D {
+    grid-area: D;
+}
+
+#pad-Z {
+    grid-area: Z;
+}
+
+#pad-X {
+    grid-area: X;
+}
+
+#pad-C {
+    grid-area: C;
+}
+

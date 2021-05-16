@@ -10,7 +10,7 @@ const BankSelect = () => {
     const dispatch = useDispatch();
 
     const onChange = (event) => {
-        if(power == 'on') {
+        if(power === 'on') {
             dispatch(selectBank(Number(event.target.value)));
         }
     }
@@ -18,7 +18,7 @@ const BankSelect = () => {
     const bankRadios = banks.map((val, ind) => 
         <label className={`radio-option ${power}`} key={ind}>
             <input className={`radio-input ${power}`} type="radio" id={`bank-${ind}`} value={ind}
-                   onChange={onChange} checked={power=='on' && bankID==ind} />
+                   onChange={onChange} checked={power==='on' && bankID===ind} />
             {` ${val.name}`}
         </label>
     );

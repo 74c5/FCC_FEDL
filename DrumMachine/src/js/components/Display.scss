@@ -1,6 +1,8 @@
 #display {
     text-align: center;
     padding: 10px;
+    line-height: 1em;
+    min-height: calc(1em + 20px);
     background-color: lightgray;
     border-radius: 5px;
     box-shadow: 1px 1px 3px darkgray inset, -1px -1px 3px darkgray inset;
