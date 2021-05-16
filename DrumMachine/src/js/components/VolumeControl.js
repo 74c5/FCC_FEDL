@@ -18,7 +18,7 @@ const VolumeControl = () => {
     const local = Math.round(volume*11);
 
     return (
-        <div className={`volume-panel ${power}`}>
+        <div id='volume-panel' className={power}>
             <h3 className='volume-reading'>volume: <span>{local}</span></h3>
             <input type="range" id="volume" name="volume" className="volume-slider"
                    value={local} min={0} max={11} 

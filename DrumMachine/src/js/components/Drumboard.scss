@@ -1,6 +1,19 @@
 #drumboard {
     display: grid;
     grid-template-columns: repeat(3, minmax(0,1fr));
-    grid-template-rows: repeat(3, max-content);
+    grid-template-rows: repeat(3, minmax(0,1fr));
     gap: 10px;
+    position: relative;
+    width: 30vw;
+    height: 30vw;
+    // float: right;
  }
+
+//  // zero width psuedo element forces height == width by using padding.
+// #drumboard::before {
+//     content: "";
+//     width: 0px;
+//     float: left;
+//     padding-top: 100%;
+// }
+

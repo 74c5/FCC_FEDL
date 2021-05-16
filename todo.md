@@ -1,9 +1,15 @@
 ## Drum Machine
 
+
+- [x] power button uses button
+
+- [x] remove react warnings...
+
 - [x] power button
 - [x] volume slider
 
-- get rubrik to pass...
+- [x] get rubrik to pass...
+- [x] mobile view
 
 - look at react and redux debugging toolkit
 
@@ -14,16 +20,7 @@
     - pad is redrawn for lots of unnecessary reasons
     - should make component for player (somehow?)
 
-
-- [x] Sound banks
-    - [x] cow sounds
-    - [x] switch banks - radio btn's
-
-- [x] play a sound?
-    - [x] play a sound on keypress...
-
 - Basic Styling
-    - [x] power button
     - ? undecided on selector styling (should just be more pads?)
     - display fadeout animation? where?
 
@@ -33,10 +30,6 @@
         - use SVG icons? means custom class and not a library? but fa doesn't do cowbells...
         - https://uxwing.com/?s=power
 
-
-- Basic hookup
-    - [x] power button to display - on/off
-
 - Cosmetics
     - power button glow and colours / power down indication on other components
 
@@ -44,10 +37,17 @@
     - deferred since this project is simple and 
     - usage of Immer,means no longer empasizing immutable reducer functions
 
-- improvements:
+- improvements / questions:
+    - decouple power mode from interface
+        - disable action in control (or dispatch and not in components...)
     - decouple player from interface
         - separate logic to play clips => easier to switch banks
         - but, dispatch can only be called in components (messaging? and consistancy?)
+    - DrumMachine styling needs to know id's of sub-components in order to correctly lay those components out.
+        - this "should" be decoupled
+    - SCSS - I'm relying on calc() to do heavy lifting for component sizes
+        - is this scalable? who do I exclude?
+        - is there a better way or do I need to make peace with tradeoffs?
 
 
 ## next

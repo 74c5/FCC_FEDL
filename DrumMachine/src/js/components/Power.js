@@ -16,9 +16,9 @@ const Power = () => {
     }
 
     return (
-        <a id="power-switch" onClick={onClick} className={power}>
+        <button id="power-switch" onClick={onClick} className={power}>
             <FontAwesomeIcon icon={faPowerOff}/>
-        </a>
+        </button>
     );
 };
 
