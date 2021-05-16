@@ -10,7 +10,6 @@ const Controls = () => {
 
     const onModeChange = (event) => {
         event.preventDefault();
-        console.log(`triggering new mode of ${event.target.value} from ${mode}`);
         dispatch(setMode(event.target.value))
     };
 

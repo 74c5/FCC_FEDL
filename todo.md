@@ -1,58 +1,66 @@
-## Markdown Previewer 
+## Drum Machine
 
-- [x] Remove bootstrap
-- [x] spin it up
+- [x] power button
+- [x] volume slider
 
-- [x] basic template
+- get rubrik to pass...
 
-- [x] react hookup
-    - local state for input? - nope!
-    - transfer to output on button push
+- look at react and redux debugging toolkit
 
-- [x] fonts
-    - include code font
+- react context for app level constants?
+    - e.g. power state?
 
-- [x] basic template mobile
-    - [x] fix styling for controls and layout for mobile vs full
-    - [x] non-interactive update (only on button press)
+- section state into more meaningful sections
+    - pad is redrawn for lots of unnecessary reasons
+    - should make component for player (somehow?)
 
-- rubrik
-    - [x] names
-    - [x] passing
 
-- markdown translation
-    - [x] problem: output is set as raw string... \n are ignored as are html tags
-        - [x] how to output html text?
-        - [x] use dangerouslySetInnerHTML on component
-    - [x] use library??? - marked
-    - [x] html sanitiser - DOMpurify
-    - [x] add styling to output
+- [x] Sound banks
+    - [x] cow sounds
+    - [x] switch banks - radio btn's
 
-- [x] allow max size instead of limiting...
+- [x] play a sound?
+    - [x] play a sound on keypress...
 
-- [x] react warnings
+- Basic Styling
+    - [x] power button
+    - ? undecided on selector styling (should just be more pads?)
+    - display fadeout animation? where?
 
-- Redux Hookup
-    - [x] push input to output
+- Sound Board Selector
+    - [x] with radio?
+    - use icons for selectors (on/off like power button)
+        - use SVG icons? means custom class and not a library? but fa doesn't do cowbells...
+        - https://uxwing.com/?s=power
 
-- [x] test build and serve
-- [x] update project readme.md
-- github links ?check?
 
+- Basic hookup
+    - [x] power button to display - on/off
+
+- Cosmetics
+    - power button glow and colours / power down indication on other components
 
 - Redux :use slices instead of old style reducers
     - deferred since this project is simple and 
     - usage of Immer,means no longer empasizing immutable reducer functions
 
+- improvements:
+    - decouple player from interface
+        - separate logic to play clips => easier to switch banks
+        - but, dispatch can only be called in components (messaging? and consistancy?)
+
+
+## next
+
+- sass should probably be a dev dependency?
+
+
+## Markdown Previewer 
+
 - Improvements:
     - clean reducer function
         - move default initial state to store creation and work with sensible defaults
         - move business logic (functionality) to separate files or area (logic/business/functions folder?)
-
-
-
-- [x] interactive mode
-
 
 ## Random Quote Machine
 

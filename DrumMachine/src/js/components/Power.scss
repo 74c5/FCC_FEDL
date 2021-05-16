@@ -1,0 +1,13 @@
+#power-switch {
+    text-align: center;
+    font-size: 2rem;
+}
+
+#power-switch.on {
+    color: green;
+}
+
+#power-switch.off {
+    color: red;
+    opacity: 100%;
+}
