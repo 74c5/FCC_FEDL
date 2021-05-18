@@ -7,8 +7,7 @@ import './Drumpad.scss';
 
 
 const Drumpad = ({id}) => {
-    const bankID = useSelector(store => store.ui.bankID);
-    const banks = useSelector(store => store.ui.banks);
+    const bank = useSelector(store => store.ui.bank);
     const power = useSelector(store => store.control.power);
     const volume = useSelector(state => state.control.volume);
     const dispatch = useDispatch();
@@ -33,11 +32,15 @@ const Drumpad = ({id}) => {
         playClip();
     }
 
+    // console.log(`pad: ${id} with...`);
+    // console.log(bank[id]);
+
     let src = '';
     let description = 'undefined description';
-    if (bankID >= 0 && banks.length !== 0) {
-        src = banks[bankID][id]['src'];
-        description = banks[bankID][id]['desc'];
+    if (bank[id] !== undefined) {
+        // console.log(`pad bank is: ${bank}`);
+        src = bank[id]['src'];
+        description = bank[id]['desc'];
         dispatch(registerKey(id, playClip));
     }
 
@@ -46,10 +49,6 @@ const Drumpad = ({id}) => {
             {id}
             <audio id={clipID} className='clip' src={src} data-description={description}>Audio Error</audio>
         </button>
-        // <div id={padID} className={`drumpad ${power}`}>
-        //     <button onClick={onClick}>{id}</button>
-        //     <audio id={clipID} src={src} data-description={description}>Audio Error</audio>
-        // </div>
     );
 };
 

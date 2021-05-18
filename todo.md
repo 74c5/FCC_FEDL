@@ -11,14 +11,30 @@
 - [x] get rubrik to pass...
 - [x] mobile view
 
+- [x] section state into more meaningful sections
+    - pad is redrawn for lots of unnecessary reasons
+    - ? should I make a component for player (somehow?)
+
+- decouple player from interface
+    - separate logic to play clips => easier to switch banks (i.e. no dispatch change?)
+    - but, dispatch can only be called in components (messaging? and consistancy?)
+
+- decouple power mode from interface
+    - disable action in control (or dispatch and not in components...)
+    - need ui 'enabled/disabled' flag for styling...
+
+- DrumMachine styling needs to know id's of sub-components in order to correctly lay those components out.
+    - this "should" be decoupled
+
+- improvements / questions:
+    - SCSS - I'm relying on calc() to do heavy lifting for component sizes
+        - is this scalable? who do I exclude?
+        - is there a better way or do I need to make peace with tradeoffs?
+
 - look at react and redux debugging toolkit
 
 - react context for app level constants?
     - e.g. power state?
-
-- section state into more meaningful sections
-    - pad is redrawn for lots of unnecessary reasons
-    - should make component for player (somehow?)
 
 - Basic Styling
     - ? undecided on selector styling (should just be more pads?)
@@ -37,17 +53,6 @@
     - deferred since this project is simple and 
     - usage of Immer,means no longer empasizing immutable reducer functions
 
-- improvements / questions:
-    - decouple power mode from interface
-        - disable action in control (or dispatch and not in components...)
-    - decouple player from interface
-        - separate logic to play clips => easier to switch banks
-        - but, dispatch can only be called in components (messaging? and consistancy?)
-    - DrumMachine styling needs to know id's of sub-components in order to correctly lay those components out.
-        - this "should" be decoupled
-    - SCSS - I'm relying on calc() to do heavy lifting for component sizes
-        - is this scalable? who do I exclude?
-        - is there a better way or do I need to make peace with tradeoffs?
 
 
 ## next

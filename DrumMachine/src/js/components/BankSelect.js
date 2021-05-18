@@ -1,10 +1,10 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { selectBank } from '../store/ui';
+import { selectBank } from '../store/control';
 import './BankSelect.scss';
 
 const BankSelect = () => {
     const bankID = useSelector(store => store.ui.bankID);
-    const banks = useSelector(store => store.ui.banks);
+    const banks = useSelector(store => store.ui.banklist);
     const power = useSelector(store => store.control.power);
 
     const dispatch = useDispatch();
@@ -15,11 +15,11 @@ const BankSelect = () => {
         }
     }
 
-    const bankRadios = banks.map((val, ind) => 
+    const bankRadios = banks.map((name, ind) => 
         <label className={`radio-option ${power}`} key={ind}>
             <input className={`radio-input ${power}`} type="radio" id={`bank-${ind}`} value={ind}
-                   onChange={onChange} checked={power==='on' && bankID===ind} />
-            {` ${val.name}`}
+                   onChange={onChange} checked={bankID===ind} />
+            {` ${name}`}
         </label>
     );
 

@@ -1,9 +1,10 @@
-import { updateDisplay } from './ui';
+import { updateDisplay, setBank } from './ui';
 
 // default state
 const DEFSTORE = {
-    playerMap : {},     //letter to playAudio function mapping
     power     : 'on',   //'on' || 'off'
+    playerMap : {},     //letter to playAudio function mapping
+    banklist  : [],
     volume    : 0,      //0 to 1
 };
 
@@ -11,6 +12,8 @@ const DEFSTORE = {
 const ACTIONS = {
     REGISTERKEY : 'control/registerKey',
     POWER       : 'control/power',
+    SELECTBANK  : 'common/bankselect',
+    SETBANKLIST : 'common/setbanklist',
     SETVOLUME   : 'control/volume',
 }
 
@@ -32,6 +35,16 @@ export const togglePower = (dispatch, getState) => {
     }
 };
 
+export const setBankList = (banklist) => (dispatch, getState) => {
+    dispatch({type: ACTIONS.SETBANKLIST, payload : banklist});
+}
+
+export const selectBank = (id) => (dispatch, getState) => {
+    const banklist = getState().control.banklist;
+    dispatch(setBank(banklist[id]));
+    dispatch({type: ACTIONS.SELECTBANK, payload: id})
+}
+
 export const setVolume = (payload) => (dispatch, getState) => {
     dispatch({type: ACTIONS.SETVOLUME, payload})
 }
@@ -48,6 +61,10 @@ export const reducer = (store=DEFSTORE, {type, payload}) => {
         case ACTIONS.POWER:
             return { ...store, power: payload };
 
+        case ACTIONS.SETBANKLIST:
+            // console.log(`control banklist: ${payload}`);
+            return { ...store, banklist : payload};
+        
         case ACTIONS.SETVOLUME:
             return { ...store, volume: payload };
 
