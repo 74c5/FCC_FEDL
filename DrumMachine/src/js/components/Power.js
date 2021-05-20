@@ -1,22 +1,26 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPowerOff } from '@fortawesome/free-solid-svg-icons'
-import { togglePower } from '../store/control';
+import { toggleEnable } from '../store/control';
 
 import './Power.scss';
 
-const Power = () => {
-    const power = useSelector(state => state.control.power);
+const Power = ({id}) => {
+    const enabled   = useSelector(state => state.control.enabled);
+    const uiEnabled = useSelector(state => state.control.enabled);
 
     const dispatch = useDispatch();
 
     const onClick = (event) => {
         event.preventDefault();
-        dispatch(togglePower);
+        dispatch(toggleEnable);
     }
 
+    const power = (enabled)? 'on' : 'off';
+    const mode  = (uiEnabled)? 'enabled' : 'disabled';
+
     return (
-        <button id="power-switch" onClick={onClick} className={power}>
+        <button id={id} onClick={onClick} className={`power-switch ${power} ${mode}`}>
             <FontAwesomeIcon icon={faPowerOff}/>
         </button>
     );

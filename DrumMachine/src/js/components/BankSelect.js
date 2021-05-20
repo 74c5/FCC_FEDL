@@ -2,29 +2,27 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectBank } from '../store/control';
 import './BankSelect.scss';
 
-const BankSelect = () => {
+const BankSelect = ({id}) => {
     const bankID = useSelector(store => store.ui.bankID);
     const banks = useSelector(store => store.ui.banklist);
-    const power = useSelector(store => store.control.power);
+    const enabled = useSelector(store => store.ui.enabled);
 
     const dispatch = useDispatch();
 
     const onChange = (event) => {
-        if(power === 'on') {
-            dispatch(selectBank(Number(event.target.value)));
-        }
+        dispatch(selectBank(Number(event.target.value)));
     }
 
     const bankRadios = banks.map((name, ind) => 
-        <label className={`radio-option ${power}`} key={ind}>
-            <input className={`radio-input ${power}`} type="radio" id={`bank-${ind}`} value={ind}
-                   onChange={onChange} checked={bankID===ind} />
+        <label className={`radio-option`} key={ind}>
+            <input className={`radio-input`} type="radio" id={`bank-${ind}`} value={ind}
+                   onChange={onChange} checked={bankID===ind} disabled={!enabled} />
             {` ${name}`}
         </label>
     );
 
     return (
-        <div id="bank-select">
+        <div id={id} className="bank-select">
             {bankRadios}
         </div>
     );

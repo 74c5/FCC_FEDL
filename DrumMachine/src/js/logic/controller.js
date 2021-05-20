@@ -1,5 +1,5 @@
 // import {  } from "redux";
-import { setVolume, setBankList, selectBank } from '../store/control';
+import { setVolume, setBankList, selectBank, playClip } from '../store/control';
 
 // Application Constants
 // const KEYMAP = { Q:'KeyQ', W:'KeyW', E:'KeyE', A:'KeyA', S:'KeyS', D:'KeyD', Z:'KeyZ', X:'KeyX', C:'KeyC' };
@@ -33,18 +33,19 @@ const BANKS = [
 
 // universal keycode event handler
 const createKeyDown = (store) => (event) => {
-    const playerMap = store.getState().control.playerMap;
-    const player = playerMap[MAPKEY[event.code]];
-    if (player) player();
+    const keylist = store.getState().control.keylist;
+    const id = MAPKEY[event.code];
+    if (keylist[id] === 'enabled') {
+        store.dispatch( playClip(id) );
+    }
 }
-
 
 // Startup sequence for the programme
 export const initialise = (store) => {
-    document.addEventListener('keydown', createKeyDown(store));
     setBankList(BANKS)(store.dispatch, store.getState);
     selectBank(0)(store.dispatch, store.getState);
     setVolume(0.5)(store.dispatch, store.getState);
+    document.addEventListener('keydown', createKeyDown(store));
 };
 
 export default initialise;

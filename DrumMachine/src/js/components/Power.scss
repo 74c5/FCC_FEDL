@@ -1,15 +1,14 @@
-#power-switch {
+.power-switch {
     background: none;
     border: none;
     text-align: center;
     font-size: 2rem;
 }
 
-#power-switch.on {
+.power-switch.on {
     color: green;
 }
 
-#power-switch.off {
+.power-switch.off {
     color: red;
-    opacity: 100%;
 }

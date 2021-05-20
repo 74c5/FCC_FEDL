@@ -1,27 +1,4 @@
-// .drumpad {
-//     position: relative;
-//     width: 100%;
-// }
-
-// zero width psuedo element forces height == width by using padding.
-// .drumpad::before {
-//     content: "";
-//     float: left;
-//     padding-top: 100%;
-// }
-
-// .drumpad > button {
-//     // position: absolute;
-//     // float: right;
-//     text-align: center;
-//     width: 100%;
-//     height: 100%;
-//     border-radius: 5px;
-// }
-
 .drum-pad {
-    // position: absolute;
-    // float: right;
     text-align: center;
     width: 100%;
     height: 100%;
