@@ -1,28 +1,26 @@
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setVolume } from '../store/control';
 
 import './VolumeControl.scss';
 
-const VolumeControl = () => {
-    const volume = useSelector(state => state.control.volume);
-    const power = useSelector(store => store.control.power);
+const VolumeControl = ({id}) => {
+    const [vol, setVol] = useState(5);
+    const enabled = useSelector(store => store.ui.enabled);
     const dispatch = useDispatch();
 
     const onChange = (event) => {
         event.preventDefault();
-        if (power === 'on') {
-            dispatch(setVolume(Number(event.target.value)/11.0));
-        }
+        const newVol = Number(event.target.value);
+        setVol(newVol);
+        dispatch(setVolume(newVol/11.0));
     };
 
-    const local = Math.round(volume*11);
-
     return (
-        <div id='volume-panel' className={power}>
-            <h3 className='volume-reading'>volume: <span>{local}</span></h3>
-            <input type="range" id="volume" name="volume" className="volume-slider"
-                   value={local} min={0} max={11} 
-                   onChange={onChange}/>
+        <div id={id} className="volume-panel">
+            <h3 className='volume-reading'>volume: <span>{vol}</span></h3>
+            <input type="range" id="volume" name="volume" className="volume-slider" disabled={!enabled}
+                   value={vol} min={0} max={11} onChange={onChange}/>
         </div>
     );
 };

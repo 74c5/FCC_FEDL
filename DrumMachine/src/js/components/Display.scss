@@ -1,4 +1,4 @@
-#display {
+.display {
     text-align: center;
     padding: 10px;
     line-height: 1em;
@@ -8,6 +8,6 @@
     box-shadow: 1px 1px 3px darkgray inset, -1px -1px 3px darkgray inset;
 }
 
-#display.off {
+.display.off {
     background-color: darkgray;
 }

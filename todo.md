@@ -15,16 +15,22 @@
     - pad is redrawn for lots of unnecessary reasons
     - ? should I make a component for player (somehow?)
 
-- decouple player from interface
+- [x] decouple player from interface
     - separate logic to play clips => easier to switch banks (i.e. no dispatch change?)
     - but, dispatch can only be called in components (messaging? and consistancy?)
 
-- decouple power mode from interface
+- [x] decouple power mode from interface
     - disable action in control (or dispatch and not in components...)
     - need ui 'enabled/disabled' flag for styling...
 
-- DrumMachine styling needs to know id's of sub-components in order to correctly lay those components out.
+- [x] DrumMachine styling needs to know id's of sub-components in order to correctly lay those components out.
     - this "should" be decoupled
+
+- [x] Cleanup code (on aisle 9)
+
+- Redux :use slices instead of old style reducers
+    - deferred since this project is simple and 
+    - usage of Immer,means no longer empasizing immutable reducer functions
 
 - improvements / questions:
     - SCSS - I'm relying on calc() to do heavy lifting for component sizes
@@ -49,9 +55,6 @@
 - Cosmetics
     - power button glow and colours / power down indication on other components
 
-- Redux :use slices instead of old style reducers
-    - deferred since this project is simple and 
-    - usage of Immer,means no longer empasizing immutable reducer functions
 
 
 
