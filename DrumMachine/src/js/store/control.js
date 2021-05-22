@@ -1,4 +1,4 @@
-import { updateDisplay, setBank, setEnable } from './ui';
+import { setEnable, display, setBank, setBankList as setUIBankList } from './ui';
 
 // default state
 const DEFSTORE = {
@@ -25,12 +25,12 @@ export const playClip = (id) => (dispatch, getState) => {
         const audio = document.querySelector(`#${id}`);
         if (audio) {
             const desc = audio.dataset.description;
-            dispatch(updateDisplay(desc, 2000));
+            dispatch(display(desc, 2000));
             //audio.load();
             audio.volume = volume;
             audio.play();
         } else {
-            dispatch(updateDisplay('unknown clip', 1500));
+            dispatch(display('unknown clip', 1500));
         }
     }
 }
@@ -50,7 +50,10 @@ export const selectBank = (id) => (dispatch, getState) => {
 
 export const setBankList = (banklist) => (dispatch, getState) => {
     const enabled = getState().control.enabled;
-    if (enabled) dispatch({type: ACTIONS.SETBANKLIST, payload : banklist});
+    if (enabled) {
+        dispatch(setUIBankList(banklist.map(bank => bank.name)));
+        dispatch({type: ACTIONS.SETBANKLIST, payload : banklist});
+    }
 }
 
 export const setVolume = (payload) => (dispatch, getState) => {
@@ -61,7 +64,7 @@ export const toggleEnable = (dispatch, getState) => {
     const enabled = getState().control.enabled;
     
     if (enabled) { // power down cycle
-        dispatch(updateDisplay("Don't do it Dave...", 1500));
+        dispatch(display("Don't do it Dave...", 1500));
         setTimeout(()=> {
             // check we are still powered down, then disable ui
             if (getState().control.enabled === false) {
@@ -73,7 +76,7 @@ export const toggleEnable = (dispatch, getState) => {
         setTimeout(()=> {
             // If we are still powered up - display a welcome message
             if (getState().control.enabled === true) {
-                dispatch(updateDisplay("Hello, Dave...", 1500))
+                dispatch(display("Hello, Dave...", 1500))
             }
 
             }, 500);
