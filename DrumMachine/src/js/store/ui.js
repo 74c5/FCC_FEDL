@@ -22,8 +22,11 @@ const uiSlice = createSlice({
             prepare: (text) => ({payload: text}),
         },
         setBank : {
-            reducer: (state, action) => { state.bank = action.payload; },
-            prepare: (bank) => ({payload: bank})
+            reducer: (state, action) => {
+                state.bankID = action.payload.bankID;
+                state.bank   = action.payload.bank;
+            },
+            prepare: (bankID, bank) => ({payload : { bankID, bank}})
         },
         setBankList : {
             reducer: (state, action) => { state.banklist = action.payload },
@@ -32,58 +35,5 @@ const uiSlice = createSlice({
     }
 });
 
-export const { setEnable, display, setBank, setBankList } = uiSlice.actions;
+export const actions = uiSlice.actions;
 export default uiSlice.reducer;
-
-// // action list
-// const ACTIONS = {
-//     SETENABLE   : 'ui/setEnable',
-//     DISPLAY     : 'ui/display',
-//     SETBANK     : 'ui/setbank',
-//     SETBANKLIST : 'common/setbanklist',
-
-// }
-
-// // action functions
-// export const updateDisplay = (text, timeout=-1) => (dispatch, getState) => {
-//     dispatch({ type: ACTIONS.DISPLAY, payload: text} );
-//     if (timeout > 0) {
-//         // clear down the message after timeout period...
-//         setTimeout(()=> {
-//             const current = getState().ui.display;
-//             if (current === text) {
-//                 dispatch({ type: ACTIONS.DISPLAY, payload: "" });
-//             }
-//         }, timeout);
-//     }
-// };
-
-// export const setBank = (bank) => (dispatch,getState) => {
-//     dispatch({ type: ACTIONS.SETBANK, payload: bank});
-// };
-
-// export const setEnable = (flag) => (dispatch, getState) => {
-//     dispatch({ type: ACTIONS.SETENABLE, payload: flag});
-// };
-
-// //reducer
-// export const reducer = (store=DEFSTORE, {type, payload}) => {
-//     switch (type) {
-//         case ACTIONS.DISPLAY:
-//             return { ...store, display : payload };
-        
-//         case ACTIONS.SETBANK:
-//             return { ...store, bank : payload };
-
-//         case ACTIONS.SETBANKLIST:
-//             return { ...store, banklist : payload.map(val => val.name)};
-    
-//         case ACTIONS.SETENABLE:
-//             return { ...store, enabled: payload };
-
-//         default:
-//             return store;
-//     }
-// }
-
-// export default reducer;

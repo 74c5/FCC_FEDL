@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider} from 'react-redux';
 import App from './js/components/App';
 import store from './js/store/store';
-import init from './js/logic/controller';
+import initialise from './js/logic/controller';
 import './index.scss';
 
 ReactDOM.render(
@@ -15,4 +15,4 @@ ReactDOM.render(
   document.getElementById('react-container')
 );
 
-init(store);
+initialise();

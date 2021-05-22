@@ -29,8 +29,9 @@
 - [x] Cleanup code (on aisle 9)
 
 - Redux :use slices instead of old style reducers
-    - deferred since this project is simple and 
     - usage of Immer,means no longer empasizing immutable reducer functions
+    - migrate logic to 'controller', so that the store only contains the model.
+        - updating other parts of the store from actions is considered a non-standard usage of redux.
 
 - improvements / questions:
     - SCSS - I'm relying on calc() to do heavy lifting for component sizes
