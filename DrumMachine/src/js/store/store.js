@@ -4,15 +4,15 @@ import { configureStore } from '@reduxjs/toolkit'
 // import { composeWithDevTools } from 'redux-devtools-extension'
 // import rootReducer from './reducer'
 import uiReducer from './ui';
-import controlReducer from './control';
+import dataReducer from './data';
 
 // const composedEnhancer = composeWithDevTools(applyMiddleware(thunkMiddleware))
 // const composedEnhancer = applyMiddleware(thunkMiddleware);
 
 // Devtools, thunk middelware and reducer composer are built into configureStore
 const store = configureStore(
-    {   reducer : { ui      : uiReducer,
-                    control : controlReducer,
+    {   reducer : { ui   : uiReducer,
+                    data : dataReducer,
         }
     }
 );

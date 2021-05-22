@@ -1,19 +1,15 @@
-import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux';
-import { selectBank } from '../store/control';
+import { useSelector } from 'react-redux';
+import { selectBank } from '../logic/controller';
 import './BankSelect.scss';
 
 const BankSelect = ({id}) => {
-    const [bankID, setBankID] = useState(0);
-    const banks = useSelector(store => store.ui.banklist);
     const enabled = useSelector(store => store.ui.enabled);
-
-    const dispatch = useDispatch();
+    const bankID = useSelector(store => store.ui.bankID);
+    const banks = useSelector(store => store.ui.banklist);
 
     const onChange = (event) => {
         const newIndex = Number(event.target.value);
-        setBankID(newIndex);
-        dispatch(selectBank(newIndex));
+        selectBank(newIndex);
     }
 
     const bankRadios = banks.map((name, index) => 

@@ -7,7 +7,7 @@ import Drumpad from './Drumpad';
 
 import './DrumMachine.scss';
 
-const Drumboard = () => {
+const DrumMachine = () => {
     const screen = useScreenSize();
     const viewClass = (screen.width < 450) ? 'mobileView' : 'fullView';
 
@@ -31,4 +31,4 @@ const Drumboard = () => {
     );
 };
 
-export default Drumboard;
+export default DrumMachine;

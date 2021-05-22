@@ -7,10 +7,10 @@ const Display = ({id}) => {
     const text = useSelector(state => state.ui.display);
     const enabled = useSelector(state => state.ui.enabled);
 
-    const power = (enabled)? 'on' : 'off';
+    const mode = (enabled)? 'enabled' : 'disabled';
 
     return (
-        <div id={id} className={`display ${power}`}>{text}</div>
+        <div id={id} className={`display ${mode}`}>{text}</div>
     );
 };
 

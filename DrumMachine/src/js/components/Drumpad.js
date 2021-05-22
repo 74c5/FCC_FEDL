@@ -1,24 +1,23 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { registerKey, playClip } from '../store/control';
+import { useSelector } from 'react-redux';
+import { registerKey, playClip } from '../logic/controller';
 import './Drumpad.scss';
 
 
 const Drumpad = ({id, clipID}) => {
     const bank = useSelector(store => store.ui.bank);
     const enabled = useSelector(store => store.ui.enabled);
-    const dispatch = useDispatch();
     
     const onClick = (event) => {
         event.preventDefault();
-        dispatch( playClip(clipID) )
+        playClip(clipID)
     }
 
     let src = '';
-    let description = 'undefined description';
+    let description = 'missing sound file';
     if (bank[clipID] !== undefined) {
         src = bank[clipID]['src'];
         description = bank[clipID]['desc'];
-        dispatch(registerKey(clipID, playClip));
+        registerKey(clipID);
     }
 
     return (
