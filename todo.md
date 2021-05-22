@@ -1,6 +1,5 @@
 ## Drum Machine
 
-
 - [x] power button uses button
 
 - [x] remove react warnings...
@@ -28,7 +27,7 @@
 
 - [x] Cleanup code (on aisle 9)
 
-- Redux :use slices instead of old style reducers
+- [x] Redux :use slices instead of old style reducers
     - usage of Immer,means no longer empasizing immutable reducer functions
     - migrate logic to 'controller', so that the store only contains the model.
         - updating other parts of the store from actions is considered a non-standard usage of redux.

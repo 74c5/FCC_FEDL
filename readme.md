@@ -10,6 +10,7 @@ Though not unimportant in real world projects, overall look and design of these 
 
 - [Random Quote Machine](https://github.com/74c5/FCC_FrontEndDevelopmentLibraries/tree/master/RandomQuoteMachine) - [demo](https://74c5.github.io/FCC_FrontEndDevelopmentLibraries/RandomQuoteMachine/snapshot/)
 - [Markdown Previewer](https://github.com/74c5/FCC_FrontEndDevelopmentLibraries/tree/master/MarkdownPreviewer) - [demo](https://74c5.github.io/FCC_FrontEndDevelopmentLibraries/MarkdownPreviewer/snapshot/)
+- [Drum Machine](https://github.com/74c5/FCC_FrontEndDevelopmentLibraries/tree/master/DrumMachine) - [demo](https://74c5.github.io/FCC_FrontEndDevelopmentLibraries/DrumMachine/snapshot/)
 
 
 [HTML Master Index](https://74c5.github.io/FCC_FrontEndDevelopmentLibraries/)

@@ -1,18 +1,12 @@
 # Drum Machine - Project 3
 
-[Demo](https://74c5.github.io/FCC_FrontEndDevelopmentLibraries/MarkdownPreviewer/snapshot/)
+[Demo](https://74c5.github.io/FCC_FrontEndDevelopmentLibraries/DrumMachine/snapshot/)
 
 Project 3 of freecodecamp.org 'Front End Developement Libraries' course. 
 
 The project goal of the project is utilise several front end libraries (and interdependencies) to implement a clone (ish) of https://codepen.io/freeCodeCamp/full/MJyNMd.
 
 Though, it is more of a sound board really.
-
-...more 
-cow <--> bell
-https://freesound.org/search/?g=1&f=&q=cow&s=duration+asc&advanced=0&page=4#sound
-https://mixkit.co/free-sound-effects/cow/
-
 
 Libraries used:
 - [React](https://reactjs.org)
@@ -24,19 +18,20 @@ Libraries used:
 
 ## Credits / Attributions
 
-
+- [Mixkit.co](from https://mixkit.co/free-sound-effects/cow/)
+    - sounds for board
+- [Audacity](https://www.audacityteam.org/)
 
 ## Lessons Learned / Observations
 
-Definitely did (a bit) more of a deep dive on React and Redux for this project.
+Preformed (a bit) more of a deep dive on Redux for this project.
 
-I figured out how to use [custom hooks](https://reactjs.org/docs/hooks-custom.html) and functional components.
-I prefer the functional components style to React Classes - they seem cleaner. But then I've always found javascript classes a little clunky.
-Created my own hook to make my UI responsive to screen size.
-I could do in pure CSS (with @media queries), but then this way provided flexibility to later allow a user to choose a preferred layout.
+Eventually, came out with a model-view-controller pattern after mixing state access in my redux stores - which turns out to be something of an anti-pattern.
+This did make the code somewhat cleaner.
 
-I ditched bootstrap and added styling using SASS on a per component basis (i.e. each component can import it's own styling).
-I've yet to see how this idea scales and what interesting clashes and priority issues might arise from doing it this way though.
+Worked out how to impliment slice reducers in reduce - which meant that I could write mutating reducers, because of the use of Immer in the background.
+Not sure the added complexity was worth it for so simple a project, but the switch forced me to create a more correct MVC architecture and come up with a coherant data flow.
+
 
 ## Creation Notes
 
