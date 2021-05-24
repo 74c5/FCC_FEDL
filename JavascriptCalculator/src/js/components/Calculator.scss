@@ -1,0 +1,90 @@
+#calculator {
+    display: grid;
+    grid-template-columns: repeat(4,  66px);
+    grid-template-rows: repeat(2, max-content) repeat(5, 44px);
+    grid-template-areas: "form form form form" "dis dis dis dis" "AC div mult sub" 
+                         "seven eight nine add" "four five six add" "one two three equal"
+                         "zero zero dec equal";
+    gap: 5px;
+    padding: 10px ;
+    border-radius: 5px;
+    background-color: darkgray;
+}
+  
+#formula {
+    grid-area: form;
+    color: lightgreen;
+}
+
+#display {
+    grid-area: dis;
+}
+
+#zero {
+    grid-area: zero;
+}
+
+#one {
+    grid-area: one;
+}
+
+#two {
+    grid-area: two;
+}
+
+#three {
+    grid-area: three;
+}
+
+#four {
+    grid-area: four;
+}
+
+#five {
+    grid-area: five;
+}
+
+#six {
+    grid-area: six;
+}
+
+#seven {
+    grid-area: seven;
+}
+
+#eight {
+    grid-area: eight;
+}
+
+#nine {
+    grid-area: nine;
+}
+
+#clear {
+    grid-area: AC;
+}
+
+#add {
+    grid-area: add;
+}
+
+#subtract {
+    grid-area: sub;
+}
+
+#multiply {
+    grid-area: mult;
+}
+
+#divide {
+    grid-area: div;
+}
+
+#decimal {
+    grid-area: dec;
+}
+
+#equals {
+    grid-area: equal;
+}
+
