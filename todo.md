@@ -1,6 +1,6 @@
 ## Javascript Calculator
 
-- finish logic interpreting tokens
+- [x] finish logic interpreting tokens
 
 - create mapping for token formula/screen display - which is not the token id.
 
