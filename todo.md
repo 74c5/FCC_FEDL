@@ -2,9 +2,41 @@
 
 - [x] finish logic interpreting tokens
 
-- create mapping for token formula/screen display - which is not the token id.
+- [x] finish conversion to tokenizer of inputs
+    - token manipulation into calculator
+    - controller glues updated tokens to state
+    - use array of keys for numbers (instead of string values);
+    - stringify tokens (print functions)
 
-- test harness for functional code
+- [x] basic calculator 
+    - parse tokens
+        - [x] single operations
+        - [x] negative numbers
+        - complex operations
+    - recursive calculate function on tree
+
+- [?] create mapping for token to formula/screen display - which is not the token id.
+    - [x] ish - seperated out functions in the symbol map
+
+- [x] prevent entry of double operators
+    - last operator takes precidence
+
+- [x] test harness for functional code
+    - jest is built into react-app
+
+- nice fonts
+- display chars (unicode for mult and divide)
+
+- additional functions
+    - backspace
+    - ans used as default after calculation
+    - sqrt
+    - constants
+    - brackets?
+    - trig
+    - memory functions
+    - calculation list
+
 - look at react and redux debugging toolkit
 
 ## Drum Machine
