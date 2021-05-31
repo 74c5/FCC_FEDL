@@ -1,17 +1,17 @@
-import { submitToken } from '../logic/controller';
+import { submitSymbol } from '../logic/controller';
 import './Pad.scss';
 
 
-const Pad = ({id, text, token}) => {
+const Pad = ({id, symbol}) => {
    
     const onClick = (event) => {
         event.preventDefault();
-        submitToken(token);
+        submitSymbol(symbol);
     }
 
     return (
         <button id={id} className={`pad`} onClick={onClick}>
-            {text}
+            {symbol.btnText}
         </button>
     );
 };
