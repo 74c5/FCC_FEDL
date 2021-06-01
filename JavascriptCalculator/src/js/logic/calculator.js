@@ -7,6 +7,14 @@ export const TOKENTYPES = {
     operator: 'operator'
 }
 
+const OPORDER = new Map();
+//BODMAS
+OPORDER.set(SYMBOLS.subtract,  4);
+OPORDER.set(SYMBOLS.add,       3);
+OPORDER.set(SYMBOLS.multiply,  2);
+OPORDER.set(SYMBOLS.divide,    1);
+
+
 // Utility functions for other parts of apps
 export const createToken = (type, symbol) => {
     return {
@@ -45,26 +53,39 @@ export const parseInput = (tokens) => {
     let temp = null;
 
     for (const token of tokens) {
-        switch (token.type) {
-            case TOKENTYPES.operator:
-                temp = {value: token.symbols[0], type: token.type, parent: null, children: [current]};
-                current.parent = temp;
-                current = temp;
+        if ( token.type === TOKENTYPES.operator ) {
+            temp = {value: token.symbols[0], type: token.type, parent: null, children: []};
+
+            // move up the tree until we find the correct insertion point
+            // note: operations lower in the tree are calculated first
+            while ( current.parent !== null && OPORDER.get(temp.value) >= OPORDER.get(current.parent.value) ) {
+                current = current.parent;
+            }
+// console.log('pre:', temp.value, current, current.value);
+            // insert the operator node
+            temp.children.push(current);
+            temp.parent = current.parent;
+            if (current.parent == null) { // the current node is root
                 root = temp;
-                break;
-            default:
-                //this is a number
-                const strVal = token.symbols.map(symbol => symbol.value).join('');
-                const value = Number(strVal);
-                temp = {value, type: token.type, parent: null, children: []};
-                if (root === null) { // first leaf
-                    root = temp;
-                } else { // assume parent is an operator 
-                    temp.parent = current;
-                    current.children.push(temp);
-                } 
-                current = temp;
-                break;
+            } else {
+                const index = current.parent.children.indexOf(current);
+                current.parent.children[index] = temp;
+            }
+            current.parent = temp;
+            current = temp;
+// console.log('post:', root.value, root, current.value, current)
+        
+        } else {  // this is a number
+            const strVal = token.symbols.map(symbol => symbol.value).join('');
+            const value = Number(strVal);
+            temp = {value, type: token.type, parent: null, children: []};
+            if (root === null) { // first leaf
+                root = temp;
+            } else { // assume parent is an operator 
+                temp.parent = current;
+                current.children.push(temp);
+            } 
+            current = temp;
         }
     }
 
