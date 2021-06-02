@@ -1,6 +1,6 @@
 import Display from './Display';
 import Pad from './Pad';
-import { SYMBOLS } from '../logic/controller';
+import { SYMBOLS } from '../logic/calculator';
 import './Calculator.scss';
 
 const Calculator = () => {

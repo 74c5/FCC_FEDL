@@ -43,7 +43,7 @@ describe('Parser Simple Single Number Tests', () => {
     });
 });
 
-describe('Parser Single operator calculations', () => {
+describe('Parser Single operator', () => {
     test('Basic Add', ()=> {
         const tokens = [
             {type: TOKENTYPES.integer,  symbols: [SYMBOLS.three]},
@@ -212,4 +212,162 @@ describe('Parser Multi Operation tests', () => {
         
         expect(root).toEqual(check);
     });
+
+});
+
+describe('Calculate Simple Single Number Tests', () => {
+    test('Positive Integer', ()=> {
+        const tokens = [{type: TOKENTYPES.integer, symbols: [SYMBOLS.three, SYMBOLS.five]}];
+        
+        const answer = calculate(tokens);
+
+        expect(answer).toEqual({status: 'success', value: 35});
+    });
+        
+    test('Negative Integer', ()=> {
+        const tokens = [{type: TOKENTYPES.integer, symbols: [SYMBOLS.subtract, SYMBOLS.one, SYMBOLS.nine]}];
+        
+        const answer = calculate(tokens);
+    
+        expect(answer).toEqual({status: 'success', value: -19});
+    });
+
+    test('Positive Float', ()=> {
+        const tokens = [{type: TOKENTYPES.float, symbols: [SYMBOLS.three, SYMBOLS.decimal, SYMBOLS.one, SYMBOLS.four]}];
+        
+        const answer = calculate(tokens);
+    
+        expect(answer).toEqual({status: 'success', value: 3.14});
+    });
+
+    test('Negative Float', ()=> {
+        const tokens = [{type: TOKENTYPES.float, symbols: [SYMBOLS.subtract, SYMBOLS.zero, SYMBOLS.decimal, SYMBOLS.one, SYMBOLS.one]}];
+        
+        const answer = calculate(tokens);
+    
+        expect(answer).toEqual({status: 'success', value: -0.11});
+    });
+});
+
+describe('Calculate Single operator', () => {
+    test('Basic Add', ()=> {
+        const tokens = [
+            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.three]},
+            {type: TOKENTYPES.operator, symbols: [SYMBOLS.add]},
+            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.four]},
+        ];
+        
+        const answer = calculate(tokens);
+    
+        expect(answer).toEqual({status: 'success', value: 7});
+    });
+    
+    test('Basic Mulitply', ()=> {
+        const tokens = [
+            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.two]},
+            {type: TOKENTYPES.operator, symbols: [SYMBOLS.multiply]},
+            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.three]},
+        ];
+
+        const answer = calculate(tokens);
+    
+        expect(answer).toEqual({status: 'success', value: 6});
+    });
+    
+    test('Basic Subtract', ()=> {
+        const tokens = [
+            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.four]},
+            {type: TOKENTYPES.operator, symbols: [SYMBOLS.subtract]},
+            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.five]},
+        ];
+
+        const answer = calculate(tokens);
+    
+        expect(answer).toEqual({status: 'success', value: -1});
+    });
+    
+    test('Basic Divide', ()=> {
+        const tokens = [
+            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.five]},
+            {type: TOKENTYPES.operator, symbols: [SYMBOLS.divide]},
+            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.eight]},
+        ];
+
+        const answer = calculate(tokens);
+    
+        expect(answer).toEqual({status: 'success', value: 0.625});
+    });
+});
+
+describe('Calculate Multi Operations', () => {
+    test('Plus Plus', () => {
+        const tokens = [
+            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.three]},
+            {type: TOKENTYPES.operator, symbols: [SYMBOLS.add]},
+            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.four]},
+            {type: TOKENTYPES.operator, symbols: [SYMBOLS.add]},
+            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.five]},
+        ];
+        
+        const answer = calculate(tokens);
+    
+        expect(answer).toEqual({status: 'success', value: 12});
+    });
+
+    test('Minus Minus', () => {
+        const tokens = [
+            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.five]},
+            {type: TOKENTYPES.operator, symbols: [SYMBOLS.subtract]},
+            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.four]},
+            {type: TOKENTYPES.operator, symbols: [SYMBOLS.subtract]},
+            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.three]},
+        ];
+        
+        const answer = calculate(tokens);
+    
+        expect(answer).toEqual({status: 'success', value: -2});
+    });
+
+    test('Mult Mult', () => {
+        const tokens = [
+            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.seven]},
+            {type: TOKENTYPES.operator, symbols: [SYMBOLS.multiply]},
+            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.eight]},
+            {type: TOKENTYPES.operator, symbols: [SYMBOLS.multiply]},
+            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.nine]},
+        ];
+        
+        const answer = calculate(tokens);
+    
+        expect(answer).toEqual({status: 'success', value: 504});
+    });
+
+    test('Add Mult', () => {
+        const tokens = [
+            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.one]},
+            {type: TOKENTYPES.operator, symbols: [SYMBOLS.add]},
+            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.seven]},
+            {type: TOKENTYPES.operator, symbols: [SYMBOLS.multiply]},
+            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.four]},
+        ];
+        
+        const answer = calculate(tokens);
+    
+        expect(answer).toEqual({status: 'success', value: 29});
+    });
+    
+    test('Mult Add', () => {
+        const tokens = [
+            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.one]},
+            {type: TOKENTYPES.operator, symbols: [SYMBOLS.multiply]},
+            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.seven]},
+            {type: TOKENTYPES.operator, symbols: [SYMBOLS.add]},
+            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.four]},
+        ];
+        
+        const answer = calculate(tokens);
+    
+        expect(answer).toEqual({status: 'success', value: 11});
+    });
+
 });
