@@ -9,11 +9,16 @@
     - stringify tokens (print functions)
 
 - [x] basic calculator 
-    - parse tokens
-        - [x] single operations
-        - [x] negative numbers
+    - [x] parse tokens
+        - single operations
+        - negative numbers
         - complex operations
-    - recursive calculate function on tree
+    - recursive calculation function on tree
+        - [x] basic tests pass
+        - advanced tests and error branches
+
+- ans used as default after calculation
+    - current behaviour is for formula to continue
 
 - [?] create mapping for token to formula/screen display - which is not the token id.
     - [x] ish - seperated out functions in the symbol map
@@ -29,7 +34,6 @@
 
 - additional functions
     - backspace
-    - ans used as default after calculation
     - sqrt
     - constants
     - brackets?

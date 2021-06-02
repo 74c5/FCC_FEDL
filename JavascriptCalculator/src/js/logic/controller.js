@@ -1,38 +1,11 @@
 import store from '../store/store';
 import { actions as uiActions } from '../store/ui';
 import { actions as dataActions } from '../store/data'
-import { TOKENTYPES, calculate, createToken, appendToNumberToken } from './calculator';
+import { SYMBOLS, TOKENTYPES, printToken, createToken, appendToNumberToken, calculate } from './calculator';
 
 // Application Constants
-export const SYMBOLS = {
-    // id:      used for identification and comparison
-    // value:   used for calculation
-    // uiText:  for 'LCD' display
-    // btnText: for keypads display
-    clear   : {id: '#', value: '',  uiText: '',  btnText: 'AC'},
-    zero    : {id: '0', value: '0', uiText: '0', btnText: '0'},
-    one     : {id: '1', value: '1', uiText: '1', btnText: '1'},
-    two     : {id: '2', value: '2', uiText: '2', btnText: '2'},
-    three   : {id: '3', value: '3', uiText: '3', btnText: '3'},
-    four    : {id: '4', value: '4', uiText: '4', btnText: '4'},
-    five    : {id: '5', value: '5', uiText: '5', btnText: '5'},
-    six     : {id: '6', value: '6', uiText: '6', btnText: '6'},
-    seven   : {id: '7', value: '7', uiText: '7', btnText: '7'},
-    eight   : {id: '8', value: '8', uiText: '8', btnText: '8'},
-    nine    : {id: '9', value: '9', uiText: '9', btnText: '9'},
-    decimal : {id: '.', value: '.', uiText: '.', btnText: '.'},
-    add     : {id: '+', value: '+', uiText: '+', btnText: '+'},
-    subtract: {id: '-', value: '-', uiText: '-', btnText: '-'},
-    multiply: {id: '*', value: '*', uiText: '*', btnText: '*'}, //todo: change value to -dot-
-    divide  : {id: '/', value: '/', uiText: '/', btnText: '/'}, //todo: change value to -div-
-    equals  : {id: '=', value: '=', uiText: '=', btnText: '='},
-}
 
 // utility functions
-const printToken = (token) => {
-    return token.symbols.map(symbol => symbol.uiText).join('');
-};
-
 const printTokens = (tokens) => {
     return tokens.map(token => printToken(token)).join(' ');
 }
@@ -79,7 +52,7 @@ export const submitSymbol = (symbol) => {
 
         case SYMBOLS.subtract:
             //Special handling for negative numbers
-            if (current === null || current.type == TOKENTYPES.operator) {
+            if (current === null || current.type === TOKENTYPES.operator) {
                 const negToken = appendToNumberToken( createToken(TOKENTYPES.integer, [symbol]), SYMBOLS.zero);
                 store.dispatch( dataActions.addToken(negToken) );
                 break;
@@ -97,8 +70,10 @@ export const submitSymbol = (symbol) => {
 
         case SYMBOLS.equals:
             const result = calculate(initial);
-            // todo: convert inputs
-            store.dispatch( uiActions.formula( '???' ));
+            if (result.status === 'error') {
+                store.dispatch( uiActions.display('invalid inputs'));
+                return;
+            }
             store.dispatch( uiActions.display( result.value ) );
             return;
 

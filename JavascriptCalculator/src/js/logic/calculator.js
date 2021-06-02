@@ -1,6 +1,29 @@
-import { SYMBOLS } from './controller';
 
 // Constants
+export const SYMBOLS = {
+    // id:      used for identification and comparison
+    // value:   used for calculation
+    // uiText:  for 'LCD' display
+    // btnText: for keypads display
+    clear   : {id: '#', value: '',  uiText: '',  btnText: 'AC'},
+    zero    : {id: '0', value: '0', uiText: '0', btnText: '0'},
+    one     : {id: '1', value: '1', uiText: '1', btnText: '1'},
+    two     : {id: '2', value: '2', uiText: '2', btnText: '2'},
+    three   : {id: '3', value: '3', uiText: '3', btnText: '3'},
+    four    : {id: '4', value: '4', uiText: '4', btnText: '4'},
+    five    : {id: '5', value: '5', uiText: '5', btnText: '5'},
+    six     : {id: '6', value: '6', uiText: '6', btnText: '6'},
+    seven   : {id: '7', value: '7', uiText: '7', btnText: '7'},
+    eight   : {id: '8', value: '8', uiText: '8', btnText: '8'},
+    nine    : {id: '9', value: '9', uiText: '9', btnText: '9'},
+    decimal : {id: '.', value: '.', uiText: '.', btnText: '.'},
+    add     : {id: '+', value: '+', uiText: '+', btnText: '+'},
+    subtract: {id: '-', value: '-', uiText: '-', btnText: '-'},
+    multiply: {id: '*', value: '*', uiText: '*', btnText: '*'}, //todo: change value to -dot-
+    divide  : {id: '/', value: '/', uiText: '/', btnText: '/'}, //todo: change value to -div-
+    equals  : {id: '=', value: '=', uiText: '=', btnText: '='},
+}
+
 export const TOKENTYPES = {
     integer : 'integer',
     float   : 'float',
@@ -14,8 +37,19 @@ OPORDER.set(SYMBOLS.add,       3);
 OPORDER.set(SYMBOLS.multiply,  2);
 OPORDER.set(SYMBOLS.divide,    1);
 
+const OPEXEC = new Map();
+OPEXEC.set(SYMBOLS.subtract,  (inputs) => inputs.reduce((acc, val) => acc-val));
+OPEXEC.set(SYMBOLS.add,       (inputs) => inputs.reduce((acc, val) => acc+val));
+OPEXEC.set(SYMBOLS.multiply,  (inputs) => inputs.reduce((acc, val) => acc*val));
+OPEXEC.set(SYMBOLS.divide,    (inputs) => inputs.reduce((acc, val) => acc/val));
+
+
 
 // Utility functions for other parts of apps
+export const printToken = (token) => {
+    return token.symbols.map(symbol => symbol.uiText).join('');
+};
+
 export const createToken = (type, symbol) => {
     return {
         type,
@@ -92,14 +126,54 @@ export const parseInput = (tokens) => {
     return root;
 }
 
+/** recursive routine to calculate value of inputs */
+export const evaluateTree = (tree) => {
+    if (tree.type === TOKENTYPES.float || tree.type === TOKENTYPES.integer) {
+        // this should be an end leaf node
+        if (tree.children.length !== 0) {
+            return `Number node (value: ${tree.value}) should be a leaf, but has children)`;
+        }
+        return tree.value;
+    }
+
+    if (tree.type === TOKENTYPES.operator) {
+        if (tree.children.length < 2) {
+            return `Not enough operands for operator: ${tree.value.uiText} ${tree.children.map(child => child.value)}`;
+        }
+        
+        const inputs = tree.children.map(child => evaluateTree(child));
+        const errors = inputs.reduce( (acc,val) => {
+            if (typeof val === 'string') {
+                if (acc.length > 0) acc += ' ' + val;
+                else acc += val;
+            }
+            return acc;
+        }, '');
+        
+        if (errors !== '') return errors;
+
+        return OPEXEC.get(tree.value)(inputs);
+    }
+
+    return `Unknown node found: ${tree.type}, {$tree.value}`;
+}
+
+
 /**
- * inputs: str - string of calculations to perform
+ * inputs: tokens - array of calculator tokens
  * returns: {
  *      status : 'success' | 'error'
  *      value  : number | error reason
  * }
  */
-export const calculate = (str) => {
-    console.log(`Performing calculation on ${str}`);
-    return {status: 'error', value: 'I dunno'};
+export const calculate = (tokens) => {
+    const tree = parseInput(tokens);
+    const answer = evaluateTree(tree);
+
+    if (typeof answer === 'string') {
+        console.error(answer);
+        return {status: 'error', value: answer};
+    }
+
+    return {status: 'success', value: answer};
 }
