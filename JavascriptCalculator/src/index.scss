@@ -1,5 +1,14 @@
 //fonts
-@import url('https://fonts.googleapis.com/css2?family=PT+Mono&family=Source+Sans+Pro:wght@200;400;700&family=Tillana:wght@400;600&display=swap');
+@font-face {
+  font-family: alarm-clock;
+  src: url("./fonts/alarm\ clock.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: conthrax;
+  src: url("./fonts/conthrax-sb.ttf") format("truetype");
+}
+
 
 // font-family: 'PT Mono', monospace;
 // font-family: 'Source Sans Pro', sans-serif;
@@ -15,11 +24,11 @@
 
 body {
   margin: 0;
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: 'PT Mono', monospace;
+  font-family: monospace;
 }

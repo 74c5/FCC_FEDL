@@ -1,5 +1,7 @@
 ## Javascript Calculator
 
+- fix rubrik errors
+
 - [x] finish logic interpreting tokens
 
 - [x] finish conversion to tokenizer of inputs
@@ -17,7 +19,7 @@
         - [x] basic tests pass
         - advanced tests and error branches
 
-- ans used as default after calculation
+- [x] ans used as default after calculation
     - current behaviour is for formula to continue
 
 - [?] create mapping for token to formula/screen display - which is not the token id.
@@ -29,7 +31,7 @@
 - [x] test harness for functional code
     - jest is built into react-app
 
-- nice fonts
+- [x] nice fonts
 - display chars (unicode for mult and divide)
 
 - additional functions

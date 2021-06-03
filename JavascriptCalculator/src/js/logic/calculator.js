@@ -78,6 +78,38 @@ export const appendToNumberToken = (token, symbol) => {
     return result;
 }
 
+// Call only for number (integer and float) types
+const evaluateNumberToken = (token) => {
+    const strVal = token.symbols.map(symbol => symbol.value).join('');
+    const value = Number(strVal);
+    return value;
+}
+
+export const createNumberToken = (value) => {
+    const parts = value.toString().split('');
+    const result = {type: TOKENTYPES.integer, symbols: []};
+    for (const part of parts) {
+        let found = undefined;
+        for (const prop in SYMBOLS) {
+            if (part === SYMBOLS[prop].value) {
+                found = SYMBOLS[prop];
+                break;
+            }
+        }
+        if (found === undefined) {
+            return `Error unknown symbol: ${part}`;
+        }
+        if (found === SYMBOLS.decimal) {
+            result.type = TOKENTYPES.float;
+        }
+        result.symbols.push(found);
+    }
+    return result;
+}
+
+
+// Main functions
+
 /**
  * Accepts string of inputs and returns a calculation tree
  */
@@ -110,8 +142,7 @@ export const parseInput = (tokens) => {
 // console.log('post:', root.value, root, current.value, current)
         
         } else {  // this is a number
-            const strVal = token.symbols.map(symbol => symbol.value).join('');
-            const value = Number(strVal);
+            const value = evaluateNumberToken(token);
             temp = {value, type: token.type, parent: null, children: []};
             if (root === null) { // first leaf
                 root = temp;
