@@ -16,6 +16,12 @@ Libraries used:
 
 ## Credits / Attributions
 
+Fonts:
+- [DA FONT](https://www.dafont.com/faq.php)
+- Alarm Clock by David J Patterson
+- Conthrax by Typodermic Fonts
+ 
+
 
 ## Lessons Learned / Observations
 
