@@ -22,9 +22,12 @@ Fonts:
 - Conthrax by Typodermic Fonts
  
 
-
 ## Lessons Learned / Observations
 
+The ui portion of this project was relatively quick. What took a while was for me to review parsing of inputs and come up with a two phase parse and execute logic - based on trees. I just thought this would be an interesting programming exercise.
+
+As usual, I've probably over engineered - so that 'future' functions can be added more easily.
+The symbol interpretation logic (i.e. conversion of button presses) is a bit sloppy and could use a bit more separaton of concerns - refactoring.
 
 ## Creation Notes
 
