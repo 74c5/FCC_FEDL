@@ -44,6 +44,9 @@ export const submitSymbol = (symbol) => {
             if (current === null || current.type === TOKENTYPES.operator) {
                 const zeroToken = appendToNumberToken( createToken(TOKENTYPES.integer, [SYMBOLS.zero]), symbol);
                 dispatch( data.addToken(zeroToken) );
+            } else if (current.type === TOKENTYPES.integer && current.symbols.length === 1 && current.symbols[0] === SYMBOLS.subtract) {
+                const negFloatToken = createToken(TOKENTYPES.float, [...current.symbols, symbol]);
+                dispatch( data.addToken(negFloatToken) );
             } else {
                 const floatToken = appendToNumberToken( current, symbol);
                 dispatch( data.updateToken(floatToken) );
@@ -53,7 +56,7 @@ export const submitSymbol = (symbol) => {
         case SYMBOLS.subtract:
             //Special handling for negative numbers
             if (current === null || current.type === TOKENTYPES.operator) {
-                const negToken = appendToNumberToken( createToken(TOKENTYPES.integer, [symbol]), SYMBOLS.zero);
+                const negToken = createToken(TOKENTYPES.integer, [symbol]);
                 dispatch( data.addToken(negToken) );
                 break;
             }
@@ -61,10 +64,30 @@ export const submitSymbol = (symbol) => {
         case SYMBOLS.divide:
         case SYMBOLS.multiply:
             const opToken = createToken(TOKENTYPES.operator, [symbol]);
-            if (current !== null && current.type === TOKENTYPES.operator) {
-                dispatch( data.updateToken(opToken) );
+            if (current !== null) {
+                if (current.type === TOKENTYPES.operator) {
+                    dispatch( data.updateToken(opToken) );
+                } else if (current.type === TOKENTYPES.integer && current.symbols.length === 1 && current.symbols[0] === SYMBOLS.subtract) {
+                    // special case of negative integer prepped, but no values entered yet.
+                    dispatch( data.deleteToken() );
+                    dispatch( data.updateToken(opToken));
+                } else {
+                    dispatch( data.addToken(opToken) );    
+                }
             } else {
                 dispatch( data.addToken(opToken) );
+            }
+            break;
+
+        case SYMBOLS.backspace:
+            if (current !== null) {
+                if (current.symbols.length === 1) {
+                    dispatch( data.deleteToken() );
+                } else {
+                    // remove the last symbol of current token
+                    const trimmed = createToken( current.type, current.symbols.slice(0, -1) );
+                    dispatch( data.updateToken(trimmed) );
+                }
             }
             break;
 
@@ -80,7 +103,8 @@ export const submitSymbol = (symbol) => {
             return;
 
         default:
-            console.log(`Unexpected key received by controller: ${symbol}`);
+            console.log(`Unexpected key received by controller: ${symbol.id === undefined ? symbol : symbol.id}`);
+
     }
 
     // Update the UI with changes from above

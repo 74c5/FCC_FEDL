@@ -17,6 +17,9 @@ const uiSlice = createSlice({
             reducer: (state, action) => { state.tokens.push(action.payload); },
             prepare: (token) => ({ payload: token }),
         },
+        deleteToken: {
+            reducer: (state, action) => { state.tokens = state.tokens.slice(0, -1) }
+        },
         updateToken : {
             reducer: (state, action) => { state.tokens[state.tokens.length-1] = action.payload; },
             prepare: (token) => ({ payload: token }),

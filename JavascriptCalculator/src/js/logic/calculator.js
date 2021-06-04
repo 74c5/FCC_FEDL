@@ -19,9 +19,10 @@ export const SYMBOLS = {
     decimal : {id: '.', value: '.', uiText: '.', btnText: '.'},
     add     : {id: '+', value: '+', uiText: '+', btnText: '+'},
     subtract: {id: '-', value: '-', uiText: '-', btnText: '-'},
-    multiply: {id: '*', value: '*', uiText: '*', btnText: '*'}, //todo: change value to -dot-
-    divide  : {id: '/', value: '/', uiText: '/', btnText: '/'}, //todo: change value to -div-
+    multiply: {id: '*', value: '*', uiText: '\u00D7', btnText: '*'},
+    divide  : {id: '/', value: '/', uiText: '\u00F7', btnText: '/'},
     equals  : {id: '=', value: '=', uiText: '=', btnText: '='},
+    backspace: {id: '<', value: '<', uiText: '<', btnText: '\u2190'},
 }
 
 export const TOKENTYPES = {
@@ -31,10 +32,10 @@ export const TOKENTYPES = {
 }
 
 const OPORDER = new Map();
-//BODMAS
+//BO(DM)(AS)
 OPORDER.set(SYMBOLS.subtract,  4);
-OPORDER.set(SYMBOLS.add,       3);
-OPORDER.set(SYMBOLS.multiply,  2);
+OPORDER.set(SYMBOLS.add,       4);
+OPORDER.set(SYMBOLS.multiply,  1);
 OPORDER.set(SYMBOLS.divide,    1);
 
 const OPEXEC = new Map();
