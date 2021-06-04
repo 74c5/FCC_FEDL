@@ -25,6 +25,7 @@ const Calculator = () => {
             <Pad id="divide"    symbol={SYMBOLS.divide}  />
             <Pad id="decimal"   symbol={SYMBOLS.decimal}  />
             <Pad id="equals"    symbol={SYMBOLS.equals}  />
+            <Pad id="backspace" symbol={SYMBOLS.backspace}  />
         </div>
     );
 };

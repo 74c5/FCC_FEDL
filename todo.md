@@ -1,41 +1,21 @@
 ## Javascript Calculator
 
-- fix rubrik errors
+- [ ] push to github and configure
 
-- [x] finish logic interpreting tokens
+- [x] fix rubrik errors
 
-- [x] finish conversion to tokenizer of inputs
-    - token manipulation into calculator
-    - controller glues updated tokens to state
-    - use array of keys for numbers (instead of string values);
-    - stringify tokens (print functions)
+- [x] FIX entry of double operators
+    - [x] last operator takes precidence
+    - single "-" is over-ridden
 
-- [x] basic calculator 
-    - [x] parse tokens
-        - single operations
-        - negative numbers
-        - complex operations
-    - recursive calculation function on tree
-        - [x] basic tests pass
-        - advanced tests and error branches
-
-- [x] ans used as default after calculation
-    - current behaviour is for formula to continue
-
+- Segregate controller and calculator logic into separate areas of concern
 - [?] create mapping for token to formula/screen display - which is not the token id.
     - [x] ish - seperated out functions in the symbol map
 
-- [x] prevent entry of double operators
-    - last operator takes precidence
-
-- [x] test harness for functional code
-    - jest is built into react-app
-
-- [x] nice fonts
-- display chars (unicode for mult and divide)
+- [x] display chars (unicode for mult and divide)
 
 - additional functions
-    - backspace
+    - [x] backspace
     - sqrt
     - constants
     - brackets?
