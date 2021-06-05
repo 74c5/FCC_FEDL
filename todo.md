@@ -1,24 +1,17 @@
 ## Javascript Calculator
 
-- [ ] push to github and configure
+- [x] push to github and configure
 
-- [x] fix rubrik errors
-
-- [x] FIX entry of double operators
-    - [x] last operator takes precidence
-    - single "-" is over-ridden
 
 - Segregate controller and calculator logic into separate areas of concern
-- [?] create mapping for token to formula/screen display - which is not the token id.
-    - [x] ish - seperated out functions in the symbol map
+    - [?] create mapping for token to formula/screen display - which is not the token id.
+        - [x] ish - seperated out functions in the symbol map
 
-- [x] display chars (unicode for mult and divide)
 
 - additional functions
-    - [x] backspace
-    - sqrt
+    - [x] sqrt
+    - [ ] brackets?
     - constants
-    - brackets?
     - trig
     - memory functions
     - calculation list

@@ -1,9 +1,9 @@
 #calculator {
     display: grid;
     grid-template-columns: repeat(4,  66px);
-    grid-template-rows: repeat(2, max-content) repeat(5, 44px);
-    grid-template-areas: "form form form form" "dis dis dis dis" "AC back div mult" 
-                         "seven eight nine sub" "four five six add" "one two three equal"
+    grid-template-rows: repeat(2, max-content) repeat(6, 44px);
+    grid-template-areas: "form form form form" "dis dis dis dis" "back null null sqrt" "AC div mult sub" 
+                         "seven eight nine add" "four five six add" "one two three equal"
                          "zero zero dec equal";
     gap: 5px;
     padding: 10px ;
@@ -90,4 +90,8 @@
 
 #backspace {
     grid-area: back;
+}
+
+#sqrt {
+    grid-area: sqrt;
 }

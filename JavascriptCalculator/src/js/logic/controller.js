@@ -14,7 +14,8 @@ const printTokens = (tokens) => {
 // App Functions
 export const submitSymbol = (symbol) => {
     const initial = store.getState().data.tokens;
-    const current = initial.length > 0 ? initial[initial.length-1] : null;
+    const current = initial[initial.length-1];
+    const previous = initial[initial.length-2];
 
     switch (symbol) {
         case SYMBOLS.clear:
@@ -31,7 +32,7 @@ export const submitSymbol = (symbol) => {
         case SYMBOLS.seven:
         case SYMBOLS.eight:
         case SYMBOLS.nine:
-            if (current !== null && current.type !== TOKENTYPES.operator) {
+            if (initial.length > 0 && ( current.type === TOKENTYPES.integer || current.type === TOKENTYPES.float )) {
                 const updatedNum = appendToNumberToken(current, symbol);
                 dispatch( data.updateToken(updatedNum) );
             } else {
@@ -41,36 +42,35 @@ export const submitSymbol = (symbol) => {
             break;
 
         case SYMBOLS.decimal:
-            if (current === null || current.type === TOKENTYPES.operator) {
+            if (initial.length > 0 && current.type === TOKENTYPES.integer && current.type === TOKENTYPES.float) {
+                const decimalToken = appendToNumberToken( current, symbol);
+                dispatch( data.updateToken(decimalToken) );
+            } else {
                 const zeroToken = appendToNumberToken( createToken(TOKENTYPES.integer, [SYMBOLS.zero]), symbol);
                 dispatch( data.addToken(zeroToken) );
-            } else if (current.type === TOKENTYPES.integer && current.symbols.length === 1 && current.symbols[0] === SYMBOLS.subtract) {
-                const negFloatToken = createToken(TOKENTYPES.float, [...current.symbols, symbol]);
-                dispatch( data.addToken(negFloatToken) );
-            } else {
-                const floatToken = appendToNumberToken( current, symbol);
-                dispatch( data.updateToken(floatToken) );
             }
             break;
 
         case SYMBOLS.subtract:
             //Special handling for negative numbers
-            if (current === null || current.type === TOKENTYPES.operator) {
-                const negToken = createToken(TOKENTYPES.integer, [symbol]);
+            const negToken = createToken(TOKENTYPES.operator, [symbol]);
+            if (initial.length === 0 || ( initial.length > 1 && previous.type !== TOKENTYPES.operator )){
                 dispatch( data.addToken(negToken) );
-                break;
             }
+            break;
         case SYMBOLS.add:
         case SYMBOLS.divide:
         case SYMBOLS.multiply:
             const opToken = createToken(TOKENTYPES.operator, [symbol]);
-            if (current !== null) {
-                if (current.type === TOKENTYPES.operator) {
-                    dispatch( data.updateToken(opToken) );
-                } else if (current.type === TOKENTYPES.integer && current.symbols.length === 1 && current.symbols[0] === SYMBOLS.subtract) {
-                    // special case of negative integer prepped, but no values entered yet.
+            if (initial.length > 0) {
+                if (initial.length > 1 && previous.type === TOKENTYPES.operator && current.symbols[0] === SYMBOLS.subtract) {
+                    // special operator followed by a negation.
                     dispatch( data.deleteToken() );
                     dispatch( data.updateToken(opToken));
+
+                } else if (current.type === TOKENTYPES.operator) {
+                    dispatch( data.updateToken(opToken) );
+
                 } else {
                     dispatch( data.addToken(opToken) );    
                 }
@@ -79,19 +79,37 @@ export const submitSymbol = (symbol) => {
             }
             break;
 
+        case SYMBOLS.sqrt:
+            const functionToken = createToken( TOKENTYPES.function, [symbol]);
+            if (current === undefined || current.type === TOKENTYPES.operator || current.type === TOKENTYPES.function) {
+                dispatch( data.addToken(functionToken) );
+            
+            } else { // number - assume multiplication
+                const implMultToken = createToken( TOKENTYPES.operator, [SYMBOLS.multiply]);
+                dispatch( data.addToken(implMultToken) );
+                dispatch( data.addToken(functionToken));
+            }
+            break;
+
         case SYMBOLS.backspace:
-            if (current !== null) {
+            if (current !== undefined) {
                 if (current.symbols.length === 1) {
                     dispatch( data.deleteToken() );
                 } else {
                     // remove the last symbol of current token
                     const trimmed = createToken( current.type, current.symbols.slice(0, -1) );
-                    dispatch( data.updateToken(trimmed) );
+                    if (trimmed.type === TOKENTYPES.float) {
+                        // re-convert to check if still a float
+                        dispatch( data.updateToken( createNumberToken( printToken(trimmed) )) );
+                    } else {
+                        dispatch( data.updateToken(trimmed) );
+                    }
                 }
             }
             break;
 
         case SYMBOLS.equals:
+console.log(initial);
             const result = calculate(initial);
             if (result.status === 'error') {
                 dispatch( ui.display('invalid inputs'));

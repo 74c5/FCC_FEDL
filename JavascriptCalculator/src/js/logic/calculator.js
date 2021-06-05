@@ -23,12 +23,14 @@ export const SYMBOLS = {
     divide  : {id: '/', value: '/', uiText: '\u00F7', btnText: '/'},
     equals  : {id: '=', value: '=', uiText: '=', btnText: '='},
     backspace: {id: '<', value: '<', uiText: '<', btnText: '\u2190'},
+    sqrt    : {id: '¬', value: '¬', uiText: '\u221A', btnText: '\u221A'},
 }
 
 export const TOKENTYPES = {
     integer : 'integer',
     float   : 'float',
-    operator: 'operator'
+    operator: 'operator',
+    function: 'function'
 }
 
 const OPORDER = new Map();
@@ -43,7 +45,10 @@ OPEXEC.set(SYMBOLS.subtract,  (inputs) => inputs.reduce((acc, val) => acc-val));
 OPEXEC.set(SYMBOLS.add,       (inputs) => inputs.reduce((acc, val) => acc+val));
 OPEXEC.set(SYMBOLS.multiply,  (inputs) => inputs.reduce((acc, val) => acc*val));
 OPEXEC.set(SYMBOLS.divide,    (inputs) => inputs.reduce((acc, val) => acc/val));
-
+OPEXEC.set(SYMBOLS.sqrt,      (inputs) => {
+                                    if (inputs.length !== 1) return "Sqrt should only have 1 input."
+                                    return Math.sqrt(inputs[0]);
+                              });
 
 
 // Utility functions for other parts of apps
@@ -125,7 +130,7 @@ export const parseInput = (tokens) => {
 
             // move up the tree until we find the correct insertion point
             // note: operations lower in the tree are calculated first
-            while ( current.parent !== null && OPORDER.get(temp.value) >= OPORDER.get(current.parent.value) ) {
+            while ( current.parent !== null && (current.parent.type === TOKENTYPES.function || OPORDER.get(temp.value) >= OPORDER.get(current.parent.value)) ) {
                 current = current.parent;
             }
 // console.log('pre:', temp.value, current, current.value);
@@ -135,6 +140,7 @@ export const parseInput = (tokens) => {
             if (current.parent == null) { // the current node is root
                 root = temp;
             } else {
+                // insertion of temp at parent
                 const index = current.parent.children.indexOf(current);
                 current.parent.children[index] = temp;
             }
@@ -142,6 +148,18 @@ export const parseInput = (tokens) => {
             current = temp;
 // console.log('post:', root.value, root, current.value, current)
         
+        } else if ( token.type === TOKENTYPES.function ) {
+            temp = { value: token.symbols[0], type: token.type, parent: null, children: []};
+
+            // assume parent is an operator
+            if (root === null) {
+                root = temp;
+            } else {
+                temp.parent = current;
+                current.children.push(temp);
+            }
+            current = temp;
+
         } else {  // this is a number
             const value = evaluateNumberToken(token);
             temp = {value, type: token.type, parent: null, children: []};
@@ -187,7 +205,21 @@ export const evaluateTree = (tree) => {
         return OPEXEC.get(tree.value)(inputs);
     }
 
-    return `Unknown node found: ${tree.type}, {$tree.value}`;
+    if (tree.type === TOKENTYPES.function) {
+        const inputs = tree.children.map(child => evaluateTree(child));
+        const errors = inputs.reduce( (acc,val) => {
+            if (typeof val === 'string') {
+                if (acc.length > 0) acc += ' ' + val;
+                else acc += val;
+            }
+            return acc;
+        }, '');
+        
+        if (errors !== '') return errors;
+
+        return OPEXEC.get(tree.value)(inputs);
+    }
+    return `Unknown node found: ${tree.type}, ${tree.value}`;
 }
 
 
