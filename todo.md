@@ -2,15 +2,14 @@
 
 - [x] push to github and configure
 
-
-- Segregate controller and calculator logic into separate areas of concern
+- [x] Segregate controller and calculator logic into separate areas of concern
     - [?] create mapping for token to formula/screen display - which is not the token id.
         - [x] ish - seperated out functions in the symbol map
 
 
 - additional functions
     - [x] sqrt
-    - [ ] brackets?
+    - [x] brackets?
     - constants
     - trig
     - memory functions
