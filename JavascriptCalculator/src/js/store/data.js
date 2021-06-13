@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 // default state
 const initialState = {
-    tokens: [], // array of tokens for calculator
+    symbols: [], // array of symbols for calculator
 };
 
 
@@ -10,20 +10,24 @@ const uiSlice = createSlice({
     name: 'data',
     initialState,
     reducers: {
-        clearTokens : {
-            reducer: (state, action) => { state.tokens = []; },
+        clearSymbols : {
+            reducer: (state, action) => { state.symbols = []; },
         },
-        addToken : {
-            reducer: (state, action) => { state.tokens.push(action.payload); },
-            prepare: (token) => ({ payload: token }),
+        addSymbol : {
+            reducer: (state, action) => { state.symbols.push(action.payload); },
+            prepare: (symbol) => ({ payload: symbol }),
         },
-        deleteToken: {
-            reducer: (state, action) => { state.tokens = state.tokens.slice(0, -1) }
+        setSymbols : {
+            reducer : (state, action) => { state.symbols = action.payload; },
+            prepare : (symbols) => ({ payload: symbols }),
         },
-        updateToken : {
-            reducer: (state, action) => { state.tokens[state.tokens.length-1] = action.payload; },
-            prepare: (token) => ({ payload: token }),
+        deleteSymbol: {
+            reducer: (state, action) => { state.symbols = state.symbols.slice(0, -1) }
         },
+        replaceSymbol: {
+            reducer: (state, action) => { state.symbols = state.symbols.slice(0, -1).concat([action.payload]); },
+            prepare: (symbol) => ({ payload: symbol }),
+        }
     }
 });
 

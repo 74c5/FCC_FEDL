@@ -1,4 +1,5 @@
-import { submitSymbol } from '../logic/controller';
+import { DISPLAYMAP, submitSymbol } from '../logic/controller';
+
 import './Pad.scss';
 
 
@@ -11,7 +12,7 @@ const Pad = ({id, symbol}) => {
 
     return (
         <button id={id} className={`pad`} onClick={onClick}>
-            {symbol.btnText}
+            {DISPLAYMAP.get(symbol).btnText}
         </button>
     );
 };

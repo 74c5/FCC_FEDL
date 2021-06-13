@@ -2,9 +2,9 @@
     display: grid;
     grid-template-columns: repeat(4,  66px);
     grid-template-rows: repeat(2, max-content) repeat(6, 44px);
-    grid-template-areas: "form form form form" "dis dis dis dis" "back null null sqrt" "AC div mult sub" 
-                         "seven eight nine add" "four five six add" "one two three equal"
-                         "zero zero dec equal";
+    grid-template-areas: "form form form form" "dis dis dis dis"      "back open close sqrt" 
+                         "AC div mult sub"     "seven eight nine add" "four five six add" 
+                         "one two three equal" "zero zero dec equal";
     gap: 5px;
     padding: 10px ;
     border-radius: 5px;
@@ -94,4 +94,12 @@
 
 #sqrt {
     grid-area: sqrt;
+}
+
+#open {
+    grid-area: open;
+}
+
+#close {
+    grid-area: close;
 }

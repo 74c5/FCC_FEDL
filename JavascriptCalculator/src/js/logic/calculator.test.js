@@ -1,88 +1,78 @@
-import { SYMBOLS, TOKENTYPES, createNumberToken, parseInput, calculate} from './calculator';
+import { SYMBOLS, SYMBOLTYPES, numberToSymbols, parseInput, calculate} from './calculator';
 
 
-describe('createNumberToken tests', () => {
+describe('numberToSymbols tests', () => {
     test('positive Integer', () => {
-        const check = {
-            type: TOKENTYPES.integer,
-            symbols: [SYMBOLS.one, SYMBOLS.two, SYMBOLS.three]
-        };
+        const check = [SYMBOLS.one, SYMBOLS.two, SYMBOLS.three];
 
-        expect(createNumberToken(123)).toEqual(check);
+        expect(numberToSymbols(123)).toEqual(check);
     });
 
     test('negative Integer', () => {
-        const check = {
-            type: TOKENTYPES.integer,
-            symbols: [SYMBOLS.subtract, SYMBOLS.nine, SYMBOLS.eight, SYMBOLS.seven]
-        };
+        const check = [SYMBOLS.subtract, SYMBOLS.nine, SYMBOLS.eight, SYMBOLS.seven];
 
-        expect(createNumberToken(-987)).toEqual(check);
+        expect(numberToSymbols(-987)).toEqual(check);
     });
 
     test('positive float', () => {
-        const check = {
-            type: TOKENTYPES.float,
-            symbols: [SYMBOLS.three, SYMBOLS.decimal, SYMBOLS.one, SYMBOLS.four]
-        };
+        const check = [SYMBOLS.three, SYMBOLS.decimal, SYMBOLS.one, SYMBOLS.four];
 
-        expect(createNumberToken(3.14)).toEqual(check);
+        expect(numberToSymbols(3.14)).toEqual(check);
     });
 
     test('negative float', () => {
-        const check = {
-            type: TOKENTYPES.float,
-            symbols: [SYMBOLS.subtract, SYMBOLS.five, SYMBOLS.six, SYMBOLS.decimal, SYMBOLS.three, SYMBOLS.one]
-        };
+        const check = [SYMBOLS.subtract, SYMBOLS.five, SYMBOLS.six, SYMBOLS.decimal, SYMBOLS.three, SYMBOLS.one];
 
-        expect(createNumberToken(-56.31)).toEqual(check);
+        expect(numberToSymbols(-56.31)).toEqual(check);
     });
 
     test('Gibberish', () => {
-        const check = "Error unknown symbol: @";
-
-        expect(createNumberToken('@nuts.com')).toEqual(check);
+        expect(numberToSymbols('@nuts.com')).toEqual([SYMBOLS.decimal]);
     });
 
 });
 
 describe('Parser Simple Single Number Tests', () => {
     test('Positive Integer', ()=> {
-        const tokens = [{type: TOKENTYPES.integer, symbols: [SYMBOLS.three, SYMBOLS.five]}];
+        const symbols = [SYMBOLS.three, SYMBOLS.five];
         
-        const root = parseInput(tokens);
+        const root = parseInput(symbols);
         
-        const check = {value: 35, type: TOKENTYPES.integer, parent: null, children: []};
+        const check = {value: symbols, type: SYMBOLTYPES.number, parent: null, children: []};
     
         expect(root).toEqual(check);
     });
         
     test('Negative Integer', ()=> {
-        const tokens = [{type: TOKENTYPES.integer, symbols: [SYMBOLS.subtract, SYMBOLS.one, SYMBOLS.nine]}];
+        const symbols = [SYMBOLS.subtract, SYMBOLS.one, SYMBOLS.nine];
         
-        const root = parseInput(tokens);
-        
-        const check = {value: -19, type: TOKENTYPES.integer, parent: null, children: []};
+        const root = parseInput(symbols);
+
+        const check = {value: SYMBOLS.subtract, type: SYMBOLTYPES.operator, parent: null, children: []};
+        check.children.push( {value: [SYMBOLS.one, SYMBOLS.nine], type: SYMBOLTYPES.number, parent: check, children: []} ); 
     
         expect(root).toEqual(check);
     });
 
     test('Positive Float', ()=> {
-        const tokens = [{type: TOKENTYPES.float, symbols: [SYMBOLS.three, SYMBOLS.decimal, SYMBOLS.one, SYMBOLS.four]}];
+        const symbols = [SYMBOLS.three, SYMBOLS.decimal, SYMBOLS.one, SYMBOLS.four];
         
-        const root = parseInput(tokens);
-        
-        const check = {value: 3.14, type: TOKENTYPES.float, parent: null, children: []};
+        const root = parseInput(symbols);
+
+        const check = {value: symbols, type: SYMBOLTYPES.number, parent: null, children: []};
     
         expect(root).toEqual(check);
     });
 
     test('Negative Float', ()=> {
-        const tokens = [{type: TOKENTYPES.float, symbols: [SYMBOLS.subtract, SYMBOLS.zero, SYMBOLS.decimal, SYMBOLS.one, SYMBOLS.one]}];
+        const op_1 = SYMBOLS.subtract;
+        const in_1 = [SYMBOLS.zero, SYMBOLS.decimal, SYMBOLS.one, SYMBOLS.one];
+        const symbols = [op_1, ...in_1];
         
-        const root = parseInput(tokens);
+        const root = parseInput(symbols);
         
-        const check = {value: -0.11, type: TOKENTYPES.float, parent: null, children: []};
+        const check = {value: op_1, type: SYMBOLTYPES.operator, parent: null, children: []};
+        check.children.push( {value: in_1, type: SYMBOLTYPES.number, parent: check, children: []});
     
         expect(root).toEqual(check);
     });
@@ -90,338 +80,611 @@ describe('Parser Simple Single Number Tests', () => {
 
 describe('Parser Single operator', () => {
     test('Basic Add', ()=> {
-        const tokens = [
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.three]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.add]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.four]},
-        ];
+        const in_1 = [SYMBOLS.three];
+        const op_1 = SYMBOLS.add;
+        const in_2 = [SYMBOLS.four];
+        const symbols = [...in_1, op_1, ...in_2];
+
+        const root = parseInput(symbols);
         
-        const root = parseInput(tokens);
-        
-        const check = {type: TOKENTYPES.operator, value: SYMBOLS.add, parent: null, children: []};
-        check.children.push({type: TOKENTYPES.integer, value: 3, parent: check, children: []});
-        check.children.push({type: TOKENTYPES.integer, value: 4, parent: check, children: []});
+        const check = {type: SYMBOLTYPES.operator, value: op_1, parent: null, children: []};
+        check.children.push({type: SYMBOLTYPES.number, value: in_1, parent: check, children: []});
+        check.children.push({type: SYMBOLTYPES.number, value: in_2, parent: check, children: []});
     
         expect(root).toEqual(check);
     });
     
     test('Basic Mulitply', ()=> {
-        const tokens = [
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.two]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.multiply]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.three]},
-        ];
+        const in_1 = [SYMBOLS.two];
+        const op_1 = SYMBOLS.multiply;
+        const in_2 = [SYMBOLS.three];
+        const symbols = [...in_1, op_1, ...in_2];
 
-        const root = parseInput(tokens);
+        const root = parseInput(symbols);
         
-        const check = {type: TOKENTYPES.operator, value: SYMBOLS.multiply, parent: null, children: []};
-        check.children.push({type: TOKENTYPES.integer, value: 2, parent: check, children: []});
-        check.children.push({type: TOKENTYPES.integer, value: 3, parent: check, children: []});
+        const check = {type: SYMBOLTYPES.operator, value: op_1, parent: null, children: []};
+        check.children.push({type: SYMBOLTYPES.number, value: in_1, parent: check, children: []});
+        check.children.push({type: SYMBOLTYPES.number, value: in_2, parent: check, children: []});
 
         expect(root).toEqual(check);
     });
     
     test('Basic Subtract', ()=> {
-        const tokens = [
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.four]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.subtract]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.five]},
-        ];
+        const in_1 = [SYMBOLS.four];
+        const op_1 = SYMBOLS.subtract;
+        const in_2 = [SYMBOLS.five];
+        const symbols = [...in_1, op_1, ...in_2];
 
-        const root = parseInput(tokens);
+        const root = parseInput(symbols);
         
-        const check = {type: TOKENTYPES.operator, value: SYMBOLS.subtract, parent: null, children: []};
-        check.children.push({type: TOKENTYPES.integer, value: 4, parent: check, children: []});
-        check.children.push({type: TOKENTYPES.integer, value: 5, parent: check, children: []});
-
+        const check = {type: SYMBOLTYPES.operator, value: op_1, parent: null, children: []};
+        check.children.push({type: SYMBOLTYPES.number, value: in_1, parent: check, children: []});
+        check.children.push({type: SYMBOLTYPES.number, value: in_2, parent: check, children: []});
         expect(root).toEqual(check);
     });
     
     test('Basic Divide', ()=> {
-        const tokens = [
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.five]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.divide]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.eight]},
-        ];
+        const in_1 = [SYMBOLS.eight];
+        const op_1 = SYMBOLS.divide;
+        const in_2 = [SYMBOLS.nine];
+        const symbols = [...in_1, op_1, ...in_2];
 
-        const root = parseInput(tokens);
+        const root = parseInput(symbols);
         
-        const check = {type: TOKENTYPES.operator, value: SYMBOLS.divide, parent: null, children: []};
-        check.children.push({type: TOKENTYPES.integer, value: 5, parent: check, children: []});
-        check.children.push({type: TOKENTYPES.integer, value: 8, parent: check, children: []});
+        const check = {type: SYMBOLTYPES.operator, value: op_1, parent: null, children: []};
+        check.children.push({type: SYMBOLTYPES.number, value: in_1, parent: check, children: []});
+        check.children.push({type: SYMBOLTYPES.number, value: in_2, parent: check, children: []});
 
         expect(root).toEqual(check);
     });
 });
 
 describe('Parser Multi Operation tests', () => {
+    test('Add a negative', () => {
+        const in_1 = [SYMBOLS.nine];
+        const op_1 = SYMBOLS.add;
+        const op_2 = SYMBOLS.subtract;
+        const in_2 = [SYMBOLS.six];
+        const symbols = [...in_1, op_1, op_2, ...in_2];
+
+        const root = parseInput(symbols);
+        
+        const check = {type: SYMBOLTYPES.operator, value: op_1, parent: null, children: []};
+        check.children.push({type: SYMBOLTYPES.number, value: in_1, parent: check, children: []});
+        check.children.push({type: SYMBOLTYPES.operator, value: op_2, parent: check, children: []});
+        check.children[1].children.push({type: SYMBOLTYPES.number, value: in_2, parent: check.children[1], children: []});
+    
+        expect(root).toEqual(check);
+    });
+
+    test('Add a negative (alt)', () => {
+        const op_1 = SYMBOLS.subtract;
+        const in_1 = [SYMBOLS.nine];
+        const op_2 = SYMBOLS.add;
+        const in_2 = [SYMBOLS.six];
+        const symbols = [op_1, ...in_1, op_2, ...in_2];
+
+        const root = parseInput(symbols);
+        
+        const check = {type: SYMBOLTYPES.operator, value: op_2, parent: null, children: []};
+        check.children.push({type: SYMBOLTYPES.operator, value: op_1, parent: check, children: []});
+        check.children.push({type: SYMBOLTYPES.number, value: in_2, parent: check, children: []});
+        check.children[0].children.push({type: SYMBOLTYPES.number, value: in_1, parent: check.children[0], children: []});
+    
+        expect(root).toEqual(check);
+    });
+
     test('Plus Plus', () => {
-        const tokens = [
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.three]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.add]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.four]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.add]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.five]},
-        ];
+        const in_1 = [SYMBOLS.three];
+        const op_1 = SYMBOLS.add;
+        const in_2 = [SYMBOLS.four];
+        const op_2 = SYMBOLS.add;
+        const in_3 = [SYMBOLS.five];
+        const symbols = [...in_1, op_1, ...in_2, op_2, ...in_3];
         
-        const root = parseInput(tokens);
+        const root = parseInput(symbols);
         
-        const check = {type: TOKENTYPES.operator, value: SYMBOLS.add, parent: null, children: []};
-        check.children.push({type: TOKENTYPES.operator, value: SYMBOLS.add, parent: check, children: []});
-        check.children.push({type: TOKENTYPES.integer, value: 5, parent: check, children: []});
-        check.children[0].children.push({type: TOKENTYPES.integer, value: 3, parent: check.children[0], children: []});
-        check.children[0].children.push({type: TOKENTYPES.integer, value: 4, parent: check.children[0], children: []});
+        const check = {type: SYMBOLTYPES.operator, value: op_1, parent: null, children: []};
+        check.children.push({type: SYMBOLTYPES.operator, value: op_2, parent: check, children: []});
+        check.children.push({type: SYMBOLTYPES.number, value: in_3, parent: check, children: []});
+        check.children[0].children.push({type: SYMBOLTYPES.number, value: in_1, parent: check.children[0], children: []});
+        check.children[0].children.push({type: SYMBOLTYPES.number, value: in_2, parent: check.children[0], children: []});
 
         expect(root).toEqual(check);
     });
 
     test('Minus Minus', () => {
-        const tokens = [
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.five]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.subtract]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.four]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.subtract]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.three]},
-        ];
+        const in_1 = [SYMBOLS.five];
+        const op_1 = SYMBOLS.subtract;
+        const in_2 = [SYMBOLS.four];
+        const op_2 = SYMBOLS.subtract;
+        const in_3 = [SYMBOLS.three];
+        const symbols = [...in_1, op_1, ...in_2, op_2, ...in_3];
+
+        const root = parseInput(symbols);
         
-        const root = parseInput(tokens);
-        
-        const check = {type: TOKENTYPES.operator, value: SYMBOLS.subtract, parent: null, children: []};
-        check.children.push({type: TOKENTYPES.operator, value: SYMBOLS.subtract, parent: check, children: []});
-        check.children.push({type: TOKENTYPES.integer, value: 3, parent: check, children: []});
-        check.children[0].children.push({type: TOKENTYPES.integer, value: 5, parent: check.children[0], children: []});
-        check.children[0].children.push({type: TOKENTYPES.integer, value: 4, parent: check.children[0], children: []});
+        const check = {type: SYMBOLTYPES.operator, value: op_2, parent: null, children: []};
+        check.children.push({type: SYMBOLTYPES.operator, value: op_1, parent: check, children: []});
+        check.children.push({type: SYMBOLTYPES.number, value: in_3, parent: check, children: []});
+        check.children[0].children.push({type: SYMBOLTYPES.number, value: in_1, parent: check.children[0], children: []});
+        check.children[0].children.push({type: SYMBOLTYPES.number, value: in_2, parent: check.children[0], children: []});
     
         expect(root).toEqual(check);
     });
 
     test('Mult Mult', () => {
-        const tokens = [
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.seven]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.multiply]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.eight]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.multiply]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.nine]},
-        ];
+        const in_1 = [SYMBOLS.seven];
+        const op_1 = SYMBOLS.multiply;
+        const in_2 = [SYMBOLS.eight];
+        const op_2 = SYMBOLS.multiply;
+        const in_3 = [SYMBOLS.nine];
+        const symbols = [...in_1, op_1, ...in_2, op_2, ...in_3];
         
-        const root = parseInput(tokens);
+        const root = parseInput(symbols);
         
-        const check = {type: TOKENTYPES.operator, value: SYMBOLS.multiply, parent: null, children: []};
-        check.children.push({type: TOKENTYPES.operator, value: SYMBOLS.multiply, parent: check, children: []});
-        check.children.push({type: TOKENTYPES.integer, value: 9, parent: check, children: []});
-        check.children[0].children.push({type: TOKENTYPES.integer, value: 7, parent: check.children[0], children: []});
-        check.children[0].children.push({type: TOKENTYPES.integer, value: 8, parent: check.children[0], children: []});
+        const check = {type: SYMBOLTYPES.operator, value: op_2, parent: null, children: []};
+        check.children.push({type: SYMBOLTYPES.operator, value: op_1, parent: check, children: []});
+        check.children.push({type: SYMBOLTYPES.number, value: in_3, parent: check, children: []});
+        check.children[0].children.push({type: SYMBOLTYPES.number, value: in_1, parent: check.children[0], children: []});
+        check.children[0].children.push({type: SYMBOLTYPES.number, value: in_2, parent: check.children[0], children: []});
     
         expect(root).toEqual(check);
     });
 
     test('Add Mult', () => {
-        const tokens = [
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.one]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.add]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.seven]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.multiply]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.four]},
-        ];
+        const in_1 = [SYMBOLS.one];
+        const op_1 = SYMBOLS.add;
+        const in_2 = [SYMBOLS.seven];
+        const op_2 = SYMBOLS.multiply;
+        const in_3 = [SYMBOLS.four];
+        const symbols = [...in_1, op_1, ...in_2, op_2, ...in_3];
         
-        const root = parseInput(tokens);
+        const root = parseInput(symbols);
         
-        const check = {type: TOKENTYPES.operator, value: SYMBOLS.add, parent: null, children: []};
-        check.children.push({type: TOKENTYPES.integer, value: 1, parent: check, children: []});
-        check.children.push({type: TOKENTYPES.operator, value: SYMBOLS.multiply, parent: check, children: []});
-        check.children[1].children.push({type: TOKENTYPES.integer, value: 7, parent: check.children[1], children: []});
-        check.children[1].children.push({type: TOKENTYPES.integer, value: 4, parent: check.children[1], children: []});
+        const check = {type: SYMBOLTYPES.operator, value: op_1, parent: null, children: []};
+        check.children.push({type: SYMBOLTYPES.number, value: in_1, parent: check, children: []});
+        check.children.push({type: SYMBOLTYPES.operator, value: op_2, parent: check, children: []});
+        check.children[1].children.push({type: SYMBOLTYPES.number, value: in_2, parent: check.children[1], children: []});
+        check.children[1].children.push({type: SYMBOLTYPES.number, value: in_3, parent: check.children[1], children: []});
 
         expect(root).toEqual(check);
     });
     
     test('Mult Add', () => {
-        const tokens = [
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.one]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.multiply]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.seven]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.add]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.four]},
-        ];
+        const in_1 = [SYMBOLS.one];
+        const op_1 = SYMBOLS.multiply;
+        const in_2 = [SYMBOLS.seven];
+        const op_2 = SYMBOLS.add;
+        const in_3 = [SYMBOLS.four];
+        const symbols = [...in_1, op_1, ...in_2, op_2, ...in_3];
         
-        const root = parseInput(tokens);
+        const root = parseInput(symbols);
         
-        const check = {type: TOKENTYPES.operator, value: SYMBOLS.add, parent: null, children: []};
-        check.children.push({type: TOKENTYPES.operator, value: SYMBOLS.multiply, parent: check, children: []});
-        check.children.push({type: TOKENTYPES.integer, value: 4, parent: check, children: []});
-        check.children[0].children.push({type: TOKENTYPES.integer, value: 1, parent: check.children[0], children: []});
-        check.children[0].children.push({type: TOKENTYPES.integer, value: 7, parent: check.children[0], children: []});
-// console.dir(root)
-// console.dir(root.children[1])
-// console.dir(check)        
+        const check = {type: SYMBOLTYPES.operator, value: op_2, parent: null, children: []};
+        check.children.push({type: SYMBOLTYPES.operator, value: op_1, parent: check, children: []});
+        check.children.push({type: SYMBOLTYPES.number, value: in_3, parent: check, children: []});
+        check.children[0].children.push({type: SYMBOLTYPES.number, value: in_1, parent: check.children[0], children: []});
+        check.children[0].children.push({type: SYMBOLTYPES.number, value: in_2, parent: check.children[0], children: []});
         
         expect(root).toEqual(check);
     });
 
+    test('Sub Add', () => {
+        const in_1 = [SYMBOLS.four];
+        const op_1 = SYMBOLS.subtract;
+        const in_2 = [SYMBOLS.nine];
+        const op_2 = SYMBOLS.add;
+        const in_3 = [SYMBOLS.five];
+        const symbols = [...in_1, op_1, ...in_2, op_2, ...in_3];
+        
+        const root = parseInput(symbols);
+        
+        const check = {type: SYMBOLTYPES.operator, value: op_2, parent: null, children: []};
+        check.children.push({type: SYMBOLTYPES.operator, value: op_1, parent: check, children: []});
+        check.children.push({type: SYMBOLTYPES.number, value: in_3, parent: check, children: []});
+        check.children[0].children.push({type: SYMBOLTYPES.number, value: in_1, parent: check.children[0], children: []});
+        check.children[0].children.push({type: SYMBOLTYPES.number, value: in_2, parent: check.children[0], children: []});
+
+        expect(root).toEqual(check);
+    });
 });
 
 
-describe('Function Parser Tests', () => {
-    // sqrt 9
-    // 2 * sqrt 4
-    // 
-    // sqrt sqrt 9 + 2
+describe('Parse Functions', () => {
+    test('sqrt 9', () => {
+        const fn_1 = SYMBOLS.sqrt;
+        const in_1 = [SYMBOLS.nine];
+        const symbols = [fn_1, ...in_1];
+
+        const check = {type: SYMBOLTYPES.function, value: fn_1, parent: null, children: []};
+        check.children.push( {type: SYMBOLTYPES.number, value: in_1, parent: check, children: []} );
+
+        const root = parseInput(symbols);
+
+        expect(root).toEqual(check);
+    });
+
+    test('3 - sqrt 4', () => {
+        const in_1 = [SYMBOLS.three];
+        const op_1 = SYMBOLS.subtract;
+        const fn_1 = SYMBOLS.sqrt;
+        const in_2 = [SYMBOLS.four];
+        const symbols = [...in_1, op_1, fn_1, ...in_2];
+        
+        const check = {type: SYMBOLTYPES.operator, value: op_1, parent: null, children: []};
+        check.children.push( {type: SYMBOLTYPES.number, value: in_1, parent: check, children: []} );
+        check.children.push( {type: SYMBOLTYPES.function, value: fn_1, parent: check, children: []} );
+        check.children[1].children.push( {type: SYMBOLTYPES.number, value: in_2, parent: check.children[1], children: []} );
+        
+        const root = parseInput(symbols);
+        expect(root).toEqual(check);
+    });
+
+    test('sqrt sqrt 81 + 2', () => {
+        const fn_1 = SYMBOLS.sqrt;
+        const fn_2 = SYMBOLS.sqrt;
+        const in_1 = [SYMBOLS.eight, SYMBOLS.one];
+        const op_1 = SYMBOLS.add;
+        const in_2 = [SYMBOLS.two]
+        const symbols = [fn_1, fn_2, ...in_1, op_1, ...in_2];
+        
+        const check = {type: SYMBOLTYPES.operator, value: op_1, parent: null, children: []};
+        check.children.push( {type: SYMBOLTYPES.function, value: fn_1, parent: check, children: []} );
+        check.children.push( {type: SYMBOLTYPES.number, value: in_2, parent: check, children: []} );
+        check.children[0].children.push( {type: SYMBOLTYPES.function, value: fn_2, parent: check.children[0], children: []} );
+        check.children[0].children[0].children.push( {type: SYMBOLTYPES.number, value: in_1, parent: check.children[0].children[0], children: []} );
+        
+        const root = parseInput(symbols);
+        
+        expect(root).toEqual(check);
+    });
+    
+    test('2 sqrt 81', () => {
+        const in_1 = [SYMBOLS.two];
+        const fn_1 = SYMBOLS.sqrt;
+        const in_2 = [SYMBOLS.eight, SYMBOLS.one];
+        const symbols = [...in_1, fn_1, ...in_2];
+        
+        const check = {type: SYMBOLTYPES.operator, value: SYMBOLS.multiply, parent: null, children: []};
+        check.children.push( {type: SYMBOLTYPES.number, value: in_1, parent: check, children: []} );
+        check.children.push( {type: SYMBOLTYPES.function, value: fn_1, parent: check, children: []} );
+        check.children[1].children.push( {type: SYMBOLTYPES.number, value: in_2, parent: check.children[1], children: []} );
+
+        const root = parseInput(symbols);
+
+        expect(root).toEqual(check);
+    });
 });
+
+describe('Parse Brackets', () => {
+    test('2*(4+5)', () => {
+        const in_1 = [SYMBOLS.two];
+        const op_1 = SYMBOLS.multiply;
+        const br_1 = SYMBOLS.open;
+        const in_2 = [SYMBOLS.four];
+        const op_2 = SYMBOLS.add;
+        const in_3 = [SYMBOLS.five];
+        const br_2 = SYMBOLS.close;
+        const symbols = [...in_1, op_1, br_1, ...in_2, op_2, ...in_3, br_2];
+
+        const check = {type: SYMBOLTYPES.operator, value: op_1, parent: null, children: []};
+        check.children.push({type: SYMBOLTYPES.number, value: in_1, parent: check, children: []});
+        check.children.push({type: SYMBOLTYPES.bracket, value: br_2, parent: check, children: []});
+        const child_1 = check.children[1];
+        child_1.children.push({type: SYMBOLTYPES.operator, value: op_2, parent: child_1, children: []});
+        const child_1_0 = check.children[1].children[0];
+        child_1_0.children.push({type: SYMBOLTYPES.number, value: in_2, parent: child_1_0, children: []});
+        child_1_0.children.push({type: SYMBOLTYPES.number, value: in_3, parent: child_1_0, children: []});
+
+        const root = parseInput(symbols);
+
+        expect(root).toEqual(check);
+    })
+
+    test('(2+5)*3', () => {
+        const br_1 = SYMBOLS.open;
+        const in_1 = [SYMBOLS.two];
+        const op_1 = SYMBOLS.add;
+        const in_2 = [SYMBOLS.five];
+        const br_2 = SYMBOLS.close;
+        const op_2 = SYMBOLS.multiply;
+        const in_3 = [SYMBOLS.three];
+        const symbols = [br_1, ...in_1, op_1, ...in_2, br_2, op_2, ...in_3];
+
+        const check = {type: SYMBOLTYPES.operator, value: op_2, parent: null, children: []};
+        check.children.push({type: SYMBOLTYPES.bracket, value: br_2, parent: check, children: []});
+        check.children.push({type: SYMBOLTYPES.number, value: in_3, parent: check, children: []});
+        const child_0 = check.children[0];
+        child_0.children.push({type: SYMBOLTYPES.operator, value: op_1, parent: child_0, children: []});
+        const child_0_0 = check.children[0].children[0];
+        child_0_0.children.push({type: SYMBOLTYPES.number, value: in_1, parent: child_0_0, children: []});
+        child_0_0.children.push({type: SYMBOLTYPES.number, value: in_2, parent: child_0_0, children: []});
+
+        const root = parseInput(symbols);
+
+        expect(root).toEqual(check);
+    })
+
+    test('2(4+5)', () => {
+        const in_1 = [SYMBOLS.two];
+        const br_1 = SYMBOLS.open;
+        const in_2 = [SYMBOLS.four];
+        const op_2 = SYMBOLS.add;
+        const in_3 = [SYMBOLS.five];
+        const br_2 = SYMBOLS.close;
+        const symbols = [...in_1, br_1, ...in_2, op_2, ...in_3, br_2];
+
+        const check = {type: SYMBOLTYPES.operator, value: SYMBOLS.multiply, parent: null, children: []};
+        check.children.push({type: SYMBOLTYPES.number, value: in_1, parent: check, children: []});
+        check.children.push({type: SYMBOLTYPES.bracket, value: br_2, parent: check, children: []});
+        const child_1 = check.children[1];
+        child_1.children.push({type: SYMBOLTYPES.operator, value: op_2, parent: child_1, children: []});
+        const child_1_0 = check.children[1].children[0];
+        child_1_0.children.push({type: SYMBOLTYPES.number, value: in_2, parent: child_1_0, children: []});
+        child_1_0.children.push({type: SYMBOLTYPES.number, value: in_3, parent: child_1_0, children: []});
+
+        const root = parseInput(symbols);
+
+        expect(root).toEqual(check);
+    })
+
+    test('(2+5)3', () => {
+        const br_1 = SYMBOLS.open;
+        const in_1 = [SYMBOLS.two];
+        const op_1 = SYMBOLS.add;
+        const in_2 = [SYMBOLS.five];
+        const br_2 = SYMBOLS.close;
+        const in_3 = [SYMBOLS.three];
+        const symbols = [br_1, ...in_1, op_1, ...in_2, br_2, ...in_3];
+
+        const check = {type: SYMBOLTYPES.operator, value: SYMBOLS.multiply, parent: null, children: []};
+        check.children.push({type: SYMBOLTYPES.bracket, value: br_2, parent: check, children: []});
+        check.children.push({type: SYMBOLTYPES.number, value: in_3, parent: check, children: []});
+        const child_0 = check.children[0];
+        child_0.children.push({type: SYMBOLTYPES.operator, value: op_1, parent: child_0, children: []});
+        const child_0_0 = check.children[0].children[0];
+        child_0_0.children.push({type: SYMBOLTYPES.number, value: in_1, parent: child_0_0, children: []});
+        child_0_0.children.push({type: SYMBOLTYPES.number, value: in_2, parent: child_0_0, children: []});
+
+        const root = parseInput(symbols);
+        expect(root).toEqual(check);
+    })
+});
+
 
 
 describe('Calculate Simple Single Number Tests', () => {
     test('Positive Integer', ()=> {
-        const tokens = [{type: TOKENTYPES.integer, symbols: [SYMBOLS.three, SYMBOLS.five]}];
+        const symbols = [SYMBOLS.three, SYMBOLS.five];
         
-        const answer = calculate(tokens);
+        const answer = calculate(symbols);
 
-        expect(answer).toEqual({status: 'success', value: 35});
+        expect(answer).toEqual(35);
     });
         
     test('Negative Integer', ()=> {
-        const tokens = [{type: TOKENTYPES.integer, symbols: [SYMBOLS.subtract, SYMBOLS.one, SYMBOLS.nine]}];
+        const symbols = [SYMBOLS.subtract, SYMBOLS.one, SYMBOLS.nine];
         
-        const answer = calculate(tokens);
+        const answer = calculate(symbols);
     
-        expect(answer).toEqual({status: 'success', value: -19});
+        expect(answer).toEqual(-19);
     });
 
     test('Positive Float', ()=> {
-        const tokens = [{type: TOKENTYPES.float, symbols: [SYMBOLS.three, SYMBOLS.decimal, SYMBOLS.one, SYMBOLS.four]}];
+        const symbols = [SYMBOLS.three, SYMBOLS.decimal, SYMBOLS.one, SYMBOLS.four];
         
-        const answer = calculate(tokens);
+        const answer = calculate(symbols);
     
-        expect(answer).toEqual({status: 'success', value: 3.14});
+        expect(answer).toEqual(3.14);
     });
 
     test('Negative Float', ()=> {
-        const tokens = [{type: TOKENTYPES.float, symbols: [SYMBOLS.subtract, SYMBOLS.zero, SYMBOLS.decimal, SYMBOLS.one, SYMBOLS.one]}];
+        const symbols = [SYMBOLS.subtract, SYMBOLS.zero, SYMBOLS.decimal, SYMBOLS.one, SYMBOLS.one];
         
-        const answer = calculate(tokens);
+        const answer = calculate(symbols);
     
-        expect(answer).toEqual({status: 'success', value: -0.11});
+        expect(answer).toEqual(-0.11);
     });
 });
 
 describe('Calculate Single operator', () => {
     test('Basic Add', ()=> {
-        const tokens = [
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.three]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.add]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.four]},
-        ];
-        
-        const answer = calculate(tokens);
+        const in_1 = [SYMBOLS.three];
+        const op_1 = SYMBOLS.add;
+        const in_2 = [SYMBOLS.four];
+        const symbols = [...in_1, op_1, ...in_2];
+
+        const answer = calculate(symbols);
     
-        expect(answer).toEqual({status: 'success', value: 7});
+        expect(answer).toEqual(7);
     });
     
     test('Basic Mulitply', ()=> {
-        const tokens = [
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.two]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.multiply]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.three]},
-        ];
+        const in_1 = [SYMBOLS.two];
+        const op_1 = SYMBOLS.multiply;
+        const in_2 = [SYMBOLS.three];
+        const symbols = [...in_1, op_1, ...in_2];
 
-        const answer = calculate(tokens);
+        const answer = calculate(symbols);
     
-        expect(answer).toEqual({status: 'success', value: 6});
+        expect(answer).toEqual(6);
     });
     
     test('Basic Subtract', ()=> {
-        const tokens = [
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.four]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.subtract]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.five]},
-        ];
+        const in_1 = [SYMBOLS.four];
+        const op_1 = SYMBOLS.subtract;
+        const in_2 = [SYMBOLS.five];
+        const symbols = [...in_1, op_1, ...in_2];
 
-        const answer = calculate(tokens);
+        const answer = calculate(symbols);
     
-        expect(answer).toEqual({status: 'success', value: -1});
+        expect(answer).toEqual(-1);
     });
     
     test('Basic Divide', ()=> {
-        const tokens = [
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.five]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.divide]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.eight]},
-        ];
+        const in_1 = [SYMBOLS.five];
+        const op_1 = SYMBOLS.divide;
+        const in_2 = [SYMBOLS.eight];
+        const symbols = [...in_1, op_1, ...in_2];
 
-        const answer = calculate(tokens);
+        const answer = calculate(symbols);
     
-        expect(answer).toEqual({status: 'success', value: 0.625});
+        expect(answer).toEqual(0.625);
     });
 });
 
-describe('Calculate Multi Operations', () => {
-    test('Plus Plus', () => {
-        const tokens = [
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.three]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.add]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.four]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.add]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.five]},
-        ];
-        
-        const answer = calculate(tokens);
+
+describe('Calculate Functions', () => {
+    test('sqrt 9', () => {
+        const fn_1 = SYMBOLS.sqrt;
+        const in_1 = [SYMBOLS.nine];
+        const symbols = [fn_1, ...in_1];
+
+        const answer = calculate(symbols);
     
-        expect(answer).toEqual({status: 'success', value: 12});
+        expect(answer).toEqual(3);
+    });
+
+    test('3 - sqrt 4', () => {
+        const in_1 = [SYMBOLS.three];
+        const op_1 = SYMBOLS.subtract;
+        const fn_1 = SYMBOLS.sqrt;
+        const in_2 = [SYMBOLS.four];
+        const symbols = [...in_1, op_1, fn_1, ...in_2];
+
+        const answer = calculate(symbols);
+    
+        expect(answer).toEqual(1);
+    });
+
+    test('sqrt sqrt 81 + 2', () => {
+        const fn_1 = SYMBOLS.sqrt;
+        const fn_2 = SYMBOLS.sqrt;
+        const in_1 = [SYMBOLS.eight, SYMBOLS.one];
+        const op_1 = SYMBOLS.add;
+        const in_2 = [SYMBOLS.two]
+        const symbols = [fn_1, fn_2, ...in_1, op_1, ...in_2];
+
+        const answer = calculate(symbols);
+    
+        expect(answer).toEqual(5);
+    });
+
+    test('2 sqrt 81', () => {
+        const in_1 = [SYMBOLS.two];
+        const fn_1 = SYMBOLS.sqrt;
+        const in_2 = [SYMBOLS.eight, SYMBOLS.one];
+        const symbols = [...in_1, fn_1, ...in_2];
+
+        const answer = calculate(symbols);
+    
+        expect(answer).toEqual(18);
+    });
+});
+
+
+describe('Calculate Multi Operations', () => {
+    test('Add a negative', () => {
+        const in_1 = [SYMBOLS.nine];
+        const op_1 = SYMBOLS.add;
+        const op_2 = SYMBOLS.subtract;
+        const in_2 = [SYMBOLS.six];
+        const symbols = [...in_1, op_1, op_2, ...in_2];
+
+        const answer = calculate(symbols);
+    
+        expect(answer).toEqual(3);
+    });
+
+    test('Add a negative (alt)', () => {
+        const op_1 = SYMBOLS.subtract;
+        const in_1 = [SYMBOLS.nine];
+        const op_2 = SYMBOLS.add;
+        const in_2 = [SYMBOLS.six];
+        const symbols = [op_1, ...in_1, op_2, ...in_2];
+   
+        const answer = calculate(symbols);
+    
+        expect(answer).toEqual(-3);
+    });
+
+
+    test('Plus Plus', () => {
+        const in_1 = [SYMBOLS.three];
+        const op_1 = SYMBOLS.add;
+        const in_2 = [SYMBOLS.four];
+        const op_2 = SYMBOLS.add;
+        const in_3 = [SYMBOLS.five];
+        const symbols = [...in_1, op_1, ...in_2, op_2, ...in_3];
+        
+        const answer = calculate(symbols);
+    
+        expect(answer).toEqual(12);
     });
 
     test('Minus Minus', () => {
-        const tokens = [
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.five]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.subtract]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.four]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.subtract]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.three]},
-        ];
+        const in_1 = [SYMBOLS.five];
+        const op_1 = SYMBOLS.subtract;
+        const in_2 = [SYMBOLS.four];
+        const op_2 = SYMBOLS.subtract;
+        const in_3 = [SYMBOLS.three];
+        const symbols = [...in_1, op_1, ...in_2, op_2, ...in_3];
         
-        const answer = calculate(tokens);
+        const answer = calculate(symbols);
     
-        expect(answer).toEqual({status: 'success', value: -2});
+        expect(answer).toEqual(-2);
     });
 
     test('Mult Mult', () => {
-        const tokens = [
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.seven]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.multiply]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.eight]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.multiply]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.nine]},
-        ];
+        const in_1 = [SYMBOLS.seven];
+        const op_1 = SYMBOLS.multiply;
+        const in_2 = [SYMBOLS.eight];
+        const op_2 = SYMBOLS.multiply;
+        const in_3 = [SYMBOLS.nine];
+        const symbols = [...in_1, op_1, ...in_2, op_2, ...in_3];
         
-        const answer = calculate(tokens);
+        const answer = calculate(symbols);
     
-        expect(answer).toEqual({status: 'success', value: 504});
+        expect(answer).toEqual(504);
     });
 
     test('Add Mult', () => {
-        const tokens = [
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.one]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.add]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.seven]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.multiply]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.four]},
-        ];
+        const in_1 = [SYMBOLS.one];
+        const op_1 = SYMBOLS.add;
+        const in_2 = [SYMBOLS.seven];
+        const op_2 = SYMBOLS.multiply;
+        const in_3 = [SYMBOLS.four];
+        const symbols = [...in_1, op_1, ...in_2, op_2, ...in_3];
         
-        const answer = calculate(tokens);
+        const answer = calculate(symbols);
     
-        expect(answer).toEqual({status: 'success', value: 29});
+        expect(answer).toEqual(29);
     });
     
     test('Mult Add', () => {
-        const tokens = [
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.one]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.multiply]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.seven]},
-            {type: TOKENTYPES.operator, symbols: [SYMBOLS.add]},
-            {type: TOKENTYPES.integer,  symbols: [SYMBOLS.four]},
-        ];
+        const in_1 = [SYMBOLS.one];
+        const op_1 = SYMBOLS.multiply;
+        const in_2 = [SYMBOLS.seven];
+        const op_2 = SYMBOLS.add;
+        const in_3 = [SYMBOLS.four];
+        const symbols = [...in_1, op_1, ...in_2, op_2, ...in_3];
         
-        const answer = calculate(tokens);
+        const answer = calculate(symbols);
     
-        expect(answer).toEqual({status: 'success', value: 11});
+        expect(answer).toEqual(11);
+    });
+
+    test('Sub Add', () => {
+        const in_1 = [SYMBOLS.four];
+        const op_1 = SYMBOLS.subtract;
+        const in_2 = [SYMBOLS.nine];
+        const op_2 = SYMBOLS.add;
+        const in_3 = [SYMBOLS.five];
+        const symbols = [...in_1, op_1, ...in_2, op_2, ...in_3];
+        
+        const answer = calculate(symbols);
+    
+        expect(answer).toEqual(0);
     });
 
 });
