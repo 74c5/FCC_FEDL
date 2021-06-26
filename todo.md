@@ -1,21 +1,33 @@
+## TwentyFive and Five Timer
+
+- Fav Icon and tab name
+    - PomoGoTime
+
+- https://www.freecodecamp.org/news/designing-keyboard-accessibility-for-complex-react-experiences/
+
+Layout
+    - radial count representation
+    - settings modal
+        - https://www.netlify.com/blog/2020/12/17/react-children-the-misunderstood-prop/
+        - https://daveceddia.com/open-modal-in-react/
+
+clockface font?
+
+Blinking clock face on pause?
+
+Retain settings in a cookie? or browser cache?
+
+- look at react and redux debugging toolkit
+
 ## Javascript Calculator
 
-- [x] push to github and configure
-
-- [x] Segregate controller and calculator logic into separate areas of concern
-    - [?] create mapping for token to formula/screen display - which is not the token id.
-        - [x] ish - seperated out functions in the symbol map
-
-
-- additional functions
-    - [x] sqrt
-    - [x] brackets?
+- additional features
     - constants
     - trig
     - memory functions
     - calculation list
-
-- look at react and redux debugging toolkit
+    - editable formula bar
+    - keyboard input / shortcuts
 
 ## Drum Machine
 

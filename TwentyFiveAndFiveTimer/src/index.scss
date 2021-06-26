@@ -1,0 +1,28 @@
+//fonts
+@font-face {
+  font-family: alarm-clock;
+  src: url("./fonts/alarm\ clock.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: tally-mark;
+  src: url("./fonts/tally_mark.ttf") format("truetype");
+}
+
+* { 
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: monospace;
+}

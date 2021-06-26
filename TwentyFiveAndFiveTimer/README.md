@@ -1,31 +1,30 @@
-# Javascript Calculator - Project 4
+# Twenty Five and Five Timer - Project 5
 
-[Demo](https://74c5.github.io/FCC_FrontEndDevelopmentLibraries/JavascriptCalculator/snapshot/)
+[Demo](https://74c5.github.io/FCC_FrontEndDevelopmentLibraries/TwentyFiveAndFiveTimer/snapshot/)
 
-Project 4 of freecodecamp.org 'Front End Developement Libraries' course. 
+Project 5 of freecodecamp.org 'Front End Developement Libraries' course. 
 
-The project goal of the project is utilise several front end libraries (and interdependencies) to implement a clone (ish) of https://codepen.io/freeCodeCamp/full/wgGVVX.
+The project goal of the project is utilise several front end libraries (and interdependencies) to implement a clone (ish) of https://codepen.io/freeCodeCamp/full/XpKrrW.
 
 Libraries used:
 - [React](https://reactjs.org)
 - [Redux](https://redux.js.org) (for global state)
 - [Sass](https://sass-lang.com) (Javascript based - not used much)
+- [FontAwesome](https://fontawesome.com/) (font-based icons)
 - ... and all their associated dependencies
 
 ## Credits / Attributions
 
+ProgressRing: https://css-tricks.com/building-progress-ring-quickly/
+
 Fonts:
 - [DA FONT](https://www.dafont.com/faq.php)
+    - Tally Mark by JLH Fonts
     - Alarm Clock by David J Patterson
-    - Conthrax by Typodermic Fonts
  
 
 ## Lessons Learned / Observations
 
-The ui portion of this project was relatively quick. What took a while was for me to review parsing of inputs and come up with a two phase parse and execute logic - based on trees. I just thought this would be an interesting programming exercise.
-
-As usual, I've probably over engineered - so that 'future' functions can be added more easily.
-The symbol interpretation logic (i.e. conversion of button presses) is a bit sloppy and could use a bit more separaton of concerns - refactoring.
 
 ## Creation Notes
 
