@@ -1,0 +1,11 @@
+.main {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.main>h1 {
+  margin: 1rem 0 0 0;
+  text-align: center;
+}

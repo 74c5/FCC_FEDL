@@ -1,23 +1,27 @@
 ## TwentyFive and Five Timer
 
-- Fav Icon and tab name
-    - PomoGoTime
+- start hooking up logic
+    - configure...
+    - set custom timer periods
+    - alarm
 
 - https://www.freecodecamp.org/news/designing-keyboard-accessibility-for-complex-react-experiences/
 
-Layout
-    - radial count representation
-    - settings modal
-        - https://www.netlify.com/blog/2020/12/17/react-children-the-misunderstood-prop/
-        - https://daveceddia.com/open-modal-in-react/
+help modal from the settings/controls/main screen?
 
-clockface font?
+Advanced Settings - colors/ theme?
 
 Blinking clock face on pause?
+
+Color highlighting for each session type
+
+display for mode on main screen
 
 Retain settings in a cookie? or browser cache?
 
 - look at react and redux debugging toolkit
+
+shortcut keys
 
 ## Javascript Calculator
 
