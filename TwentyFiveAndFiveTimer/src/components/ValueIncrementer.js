@@ -4,22 +4,22 @@ import IconButton from './IconButton';
 
 import styles from '../styles/ValueIncrementer.module.css';
 
-const incrementer = ({id, title, value, onIncrement, onDecrement, onReset}) => {
+const incrementer = ({id, title, value, setValue}) => {
 
     const increment = (event) => {
         event.preventDefault();
         event.stopPropagation();
-        onIncrement();
+        setValue(value+1);
     };
     const decrement = (event) => {
         event.preventDefault();
         event.stopPropagation();
-        onDecrement();
+        setValue(value-1);
     };
     const reset = (event) => {
         event.preventDefault();
         event.stopPropagation();
-        onReset();
+        setValue(-1);
     };
 
     return (

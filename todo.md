@@ -1,9 +1,10 @@
 ## TwentyFive and Five Timer
 
 - start hooking up logic
-    - configure...
-    - set custom timer periods
+    - [x] configure...
+    - [x] set custom timer periods
     - alarm
+    - next/skip button - does not increment the count
 
 - https://www.freecodecamp.org/news/designing-keyboard-accessibility-for-complex-react-experiences/
 
@@ -16,6 +17,8 @@ Blinking clock face on pause?
 Color highlighting for each session type
 
 display for mode on main screen
+
+synchornise initialisation constants accross all files...
 
 Retain settings in a cookie? or browser cache?
 

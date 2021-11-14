@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { useSelector } from 'react-redux';
 
-import { toggleSettingsModal } from '../logic/settings';
+import { toggleSettingsModal } from '../logic/app';
 
 import Interface from '../components/Interface';
 import Modal from '../components/Modal';
@@ -12,7 +12,7 @@ import styles from '../styles/Home.module.css'
 
 
 export default function Home() {
-  const settingsShown = useSelector(state => state.settings.show);
+  const settingsShown = useSelector(state => state.app.showSettings);
 
   return (
     <>

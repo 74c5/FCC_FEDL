@@ -8,7 +8,6 @@ const Interface = ({id}) => {
     return (
         <div id={id} className={styles.interface}>
             <Clockface id="clock-face"/>
-            {/* <SessionCounter id="session-counter" />  */}
             <Controls id="controls" />
         </div>
     );

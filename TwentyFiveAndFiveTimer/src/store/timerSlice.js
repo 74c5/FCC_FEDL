@@ -23,18 +23,17 @@ const timerSlice = createSlice({
             reducer: (state, action) => { state.tick = action.payload; },
             prepare: (tick) => ({payload: tick})
         },
-        updateTimer: {
+        setValue: {
             reducer: (state, action) => { state.value = action.payload; },
             prepare: (value) => ({payload: value})
         },
-        resetTimer: {
+        setParams: {
             reducer: (state, action) => { 
-                state.value = 0;
                 state.label = action.payload.label;
                 state.limit = action.payload.limit;
                 state.color = action.payload.color;
             },
-            prepare: (values) => ({payload: values})
+            prepare: (params) => ({payload: params})
         },
         incrementCount: {
             reducer: (state) => { state.count = state.count + 1; }

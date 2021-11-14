@@ -1,8 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { MODE_LIST, incrementSessionTime, decrementSessionTime, incrementBreakTime, decrementBreakTime, resetSessionTime, resetBreakTime, selectMode } from '../logic/settings';
+import { MODE_LIST, setSessionLimit, setShortBreakLimit, selectMode } from '../logic/settings';
 
 import ValueIncrementer from './ValueIncrementer';
 import ValueSelector from './ValueSelector';
@@ -19,12 +18,10 @@ const Settings = ({id}) => {
 
     return (
         <div id={id} className={styles.main}>
-            <ValueIncrementer id={"setSessionTime"} title={"Session Time"} value={sessionTime} 
-                              onIncrement={incrementSessionTime} onDecrement={decrementSessionTime}
-                              onReset={resetSessionTime} />
-            <ValueIncrementer id={"setBreakTime"} title={"Break Time"} value={breakTime} 
-                              onIncrement={incrementBreakTime} onDecrement={decrementBreakTime}
-                              onReset={resetBreakTime} />
+            <ValueIncrementer id={"setSessionTime"} title={"Session Time"} 
+                              value={sessionTime} setValue={setSessionLimit}  />
+            <ValueIncrementer id={"setBreakTime"} title={"Break Time"} 
+                              value={breakTime} setValue={setShortBreakLimit} />
             <ValueSelector id={"modeSelector"} title={"Mode"} value={mode} 
                            selection={ MODE_LIST }
                            onChange={ selectMode } />

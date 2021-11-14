@@ -23,7 +23,7 @@
 .timer {
     display: inline-block;
     font-family: "alarm-clock", sans-serif;
-    font-size: 5rem;
+    font-size: 4rem;
     font-weight: bold;
     color: #1f2f2f;
     filter: drop-shadow(1px 1px 1px #4f4f4f);
