@@ -23,23 +23,33 @@ export const MODE_LIST =  Object.entries(TIMER_MODES)
                                     return acc;
                                 }, []);
 
-const SESSION_TYPES = {
-    session    : 'Session',
-    shortBreak : 'Break'
+export const SESSION_TYPES = {
+    session    : 'session',
+    shortBreak : 'shortBreak'
 }
+
+const SESSION_DEFAULTS = new Map();
+SESSION_DEFAULTS.set(SESSION_TYPES.session, {label: 'Session', limit: 25});
+SESSION_DEFAULTS.set(SESSION_TYPES.shortBreak, {label: 'Session', limit: 5});
 
 // utility functions
 
 // application functions
-export const toggleSettingsModal = () => {
-    dispatch( settings.toggleShow() );
+/**
+ * @param {integer} value // time in minutes for the session
+ *                        // a value <= 0 will reset the time to default
+ */
+export const setSessionLimit = (value) => {
+    dispatch( settings.setSessionLimit( (value > 0)? value : SESSION_DEFAULTS.get(SESSION_TYPES.session).limit ) );
 };
 
-const incrementSessionTime = () => {console.log('todo: incrementSessionTime')};
-const decrementSessionTime = () => {console.log('todo: decrementSessionTime')};
-const incrementBreakTime = () => {console.log('todo: incrementBreakTime')};
-const decrementBreakTime = () => {console.log('todo: decrementBreakTime')};
-const resetToDefaults = () => {console.log('todo: resetToDefaults')};
+/**
+ * @param {integer} value // time in minutes for the session
+ *                        // a value <= 0 will reset the time to default
+ */
+export const setShortBreakLimit = (value) => {
+    dispatch( settings.setShortBreakLimit( (value > 0)? value : SESSION_DEFAULTS.get(SESSION_TYPES.session).limit ) );
+};
 
 export const selectMode = (mode) => {
     dispatch( settings.setMode(mode) );
@@ -54,27 +64,26 @@ export const selectMode = (mode) => {
 //     }
 // }
 
-// control functions
-export const getNextSession = (label) => {
-    const { mode, session, shortBreak } = store.getState().settings;
-    if (label == SESSION_TYPES.session) {
-        const {limit, color} = shortBreak;
-        return {
-            label    : SESSION_TYPES.shortBreak,
-            limit    : limit * 60000,
-            color,
-            run:        (mode == TIMER_MODES.continuous),
-            increment:  true
-        };
-    } else {
-        const {limit, color} = session;
-        return {
-            label    : SESSION_TYPES.session,
-            limit    : limit * 60000,
-            color,
-            run:        (mode == TIMER_MODES.continuous),
-            increment:  false
-        }
+/**
+ * @param {SESSION_TYPES} type
+ * @returns type of the next session
+ */
+export const getNextSession = (type) => {
+    return (type == SESSION_TYPES.session)? SESSION_TYPES.shortBreak : SESSION_TYPES.session;
+};
+
+/**
+ * Accessor Method for currently timer parameters - from store (and defaults)
+ * @param {SESSION_TYPE} type 
+ * @returns 
+ */    
+export const getSessionParams = (type) => {
+    const state = store.getState().settings;
+    return {
+        label        : SESSION_DEFAULTS.get(type).label,
+        limit        : state[type].limit * 60000,
+        color        : state[type].color,
+        isContinuous : (state.mode == TIMER_MODES.continuous),
     }
 }
 
