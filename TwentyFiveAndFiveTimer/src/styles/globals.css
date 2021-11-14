@@ -1,0 +1,41 @@
+/* fonts */
+@font-face {
+  font-family: alarm-clock;
+  src: url("../fonts/alarm_clock.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: tally-mark;
+  src: url("../fonts/tally_mark.ttf") format("truetype");
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* General Styles */
+.disabled {
+  opacity: 0.25;
+}
+
+.app {
+  /* background-color: lightblue; */
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+}
+
