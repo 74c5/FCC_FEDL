@@ -28,9 +28,14 @@ export const SESSION_TYPES = {
     shortBreak : 'shortBreak'
 }
 
+const ALARM_CLIPS = {
+    alarmTone  : "/audio/mixkit-alarm-tone-996.wav",
+    arcadeBeeps: "/audio/mixkit-repeating-arcade-beep-1084.wav"
+}
+
 const SESSION_DEFAULTS = new Map();
-SESSION_DEFAULTS.set(SESSION_TYPES.session, {label: 'Session', limit: 25});
-SESSION_DEFAULTS.set(SESSION_TYPES.shortBreak, {label: 'Session', limit: 5});
+SESSION_DEFAULTS.set(SESSION_TYPES.session,    {label: 'Session', limit: 25, alarm: ALARM_CLIPS.alarmTone});
+SESSION_DEFAULTS.set(SESSION_TYPES.shortBreak, {label: 'Break',   limit: 5,  alarm: ALARM_CLIPS.arcadeBeeps});
 
 // utility functions
 
@@ -48,7 +53,7 @@ export const setSessionLimit = (value) => {
  *                        // a value <= 0 will reset the time to default
  */
 export const setShortBreakLimit = (value) => {
-    dispatch( settings.setShortBreakLimit( (value > 0)? value : SESSION_DEFAULTS.get(SESSION_TYPES.session).limit ) );
+    dispatch( settings.setShortBreakLimit( (value > 0)? value : SESSION_DEFAULTS.get(SESSION_TYPES.shortBreak).limit ) );
 };
 
 export const selectMode = (mode) => {
@@ -64,7 +69,7 @@ export const selectMode = (mode) => {
 //     }
 // }
 
-/**
+/** TODO: ?this is 'logic' not settings?
  * @param {SESSION_TYPES} type
  * @returns type of the next session
  */
@@ -83,6 +88,7 @@ export const getSessionParams = (type) => {
         label        : SESSION_DEFAULTS.get(type).label,
         limit        : state[type].limit * 60000,
         color        : state[type].color,
+        alarm        : SESSION_DEFAULTS.get(type).alarm,
         isContinuous : (state.mode == TIMER_MODES.continuous),
     }
 }

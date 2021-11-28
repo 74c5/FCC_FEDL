@@ -1,6 +1,6 @@
 # 25 and 5 timer - Project 5
 
-[Demo](https://74c5.github.io/)
+[Demo](https://74c5.github.io/FCC_FrontEndDevelopmentLibraries/TwentyFiveAndFiveTimer/out/)
 
 Project 5 of freecodecamp.org 'Front End Developement Libraries' course. 
 
@@ -20,6 +20,9 @@ Fonts:
 - [DA FONT](https://www.dafont.com/faq.php)
     - Alarm Clock by David J Patterson
     - Conthrax by Typodermic Fonts
+- [Mixkit](https://mixkit.co/) for audio clips, search
+    - alarm tone
+    - repeating arcade beep
  
 
 ## Lessons Learned / Observations
