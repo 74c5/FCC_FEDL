@@ -1,6 +1,6 @@
 # 25 and 5 timer - Project 5
 
-[Demo](https://74c5.github.io/FCC_FrontEndDevelopmentLibraries/TwentyFiveAndFiveTimer/out/)
+[Demo](https://74c5.github.io/FCC_FrontEndDevelopmentLibraries/TwentyFiveAndFiveTimer/snapshot/)
 
 Project 5 of freecodecamp.org 'Front End Developement Libraries' course. 
 
@@ -47,12 +47,14 @@ A template project can be found in ../template
     - The page will reload if you make edits.<br />
     - You will also see any lint errors in the console.
 - `npm build`
-    - Builds the static app for production to the `???` folder.<br />
+    - Builds the static app for production to the `out` folder. Using `next build` and `next export`
     - It correctly bundles React in production mode and optimizes the build for the best performance.
     - The build is minified and the filenames include the hashes.<br />
     - Your app is ready to be deployed!
 - `npm start`
     - starts a server, for testing the static production build.
+- Installing vercel server - `npm i -g serve` - allows serving of exported site locally using `serve out`.
+     
 
 ## Resources/Ackknowledgements
 
