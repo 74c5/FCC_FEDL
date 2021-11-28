@@ -3,8 +3,10 @@
 - start hooking up logic
     - [x] configure...
     - [x] set custom timer periods
-    - alarm
-    - next/skip button - does not increment the count
+    - [x] alarm
+        -  https://mixkit.co/ Classic short alarm 
+
+    - next/skip button - should not increment the count...
 
 - https://www.freecodecamp.org/news/designing-keyboard-accessibility-for-complex-react-experiences/
 
@@ -18,7 +20,8 @@ Color highlighting for each session type
 
 display for mode on main screen
 
-synchornise initialisation constants accross all files...
+- synchronise initialisation constants accross all files...
+    - [x] hooks are in app.initialise()
 
 Retain settings in a cookie? or browser cache?
 

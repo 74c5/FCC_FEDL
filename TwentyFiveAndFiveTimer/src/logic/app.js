@@ -1,7 +1,7 @@
 import store, {dispatch} from '../store/store';
 
 import { actions as app } from '../store/appSlice'
-import { setSessionParams } from './timer';
+import { setSessionParams, initialise as initialiseTimer } from './timer';
 
 // application functions
 export const toggleSettingsModal = () => {
@@ -10,3 +10,9 @@ export const toggleSettingsModal = () => {
     
     dispatch( app.toggleSettings() );
 };
+
+export const initialiseApp = () => {
+    if (process.browser) { // client-side only initialisation
+        initialiseTimer();
+    }
+}
