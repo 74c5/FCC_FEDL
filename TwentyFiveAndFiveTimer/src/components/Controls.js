@@ -4,7 +4,7 @@ import { faPlay, faPause, faStepForward, faStop, faEllipsisH, faEllipsisV, faCog
 
 
 import { toggleSettingsModal } from '../logic/app';
-import { TIMER_STATES, toggleTimer, stopTimer } from '../logic/timer';
+import { TIMER_STATES, toggleTimer, stopTimer, nextTimer } from '../logic/timer';
 
 import IconButton from './IconButton';
 
@@ -24,7 +24,7 @@ const stop = (event) => {
 const next = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    console.log(`nextTimer button pressed`);
+    nextTimer();
 };
 const showSettings = (event) => {
     event.preventDefault();

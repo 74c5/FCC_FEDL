@@ -10,21 +10,20 @@ import styles from '../styles/Settings.module.css';
 
 
 const Settings = ({id}) => {
-    const sessionTime = useSelector(state => state.settings.session.limit);
-    const breakTime   = useSelector(state => state.settings.shortBreak.limit);
-    const mode        = useSelector(state => state.settings.mode);
+    const sessionLength = useSelector(state => state.settings.session.limit);
+    const breakLength   = useSelector(state => state.settings.shortBreak.limit);
+    const mode          = useSelector(state => state.settings.mode);
 
     //todo: extract only minutes from timer value
 
     return (
         <div id={id} className={styles.main}>
-            <ValueIncrementer id={"setSessionTime"} title={"Session Time"} 
-                              value={sessionTime} setValue={setSessionLimit}  />
-            <ValueIncrementer id={"setBreakTime"} title={"Break Time"} 
-                              value={breakTime} setValue={setShortBreakLimit} />
-            <ValueSelector id={"modeSelector"} title={"Mode"} value={mode} 
-                           selection={ MODE_LIST }
-                           onChange={ selectMode } />
+            <ValueIncrementer idPrefix={"session"} title={"Session Length"} 
+                              value={sessionLength} setValue={setSessionLimit}  />
+            <ValueIncrementer idPrefix={"break"} title={"Break Length"} 
+                              value={breakLength} setValue={setShortBreakLimit} />
+            <ValueSelector idPrefix={"mode"} title={"Mode"} value={mode} 
+                           selection={ MODE_LIST }  onChange={ selectMode } />
             {/* long Break */}
             {
             /* TODO:

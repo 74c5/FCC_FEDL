@@ -29,13 +29,15 @@ Fonts:
 
 There was a fair bit of jiggery pokery to get next.js and redux to play nicely. I don't really need an accurate rendering on the server side.
 
+There are some design decisions that I would not take, if the rubrik did not force me to. E.g. hiding the settings modal offscreen when not shown (react allows you to just return 'null' instead).
+
 ## Creation Notes
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 It was then stripped back to a simple app, .
 
-A template project can be found in ../template
+Manual setting of path in `next.config.js` is for html export deployment to github pages. Remove these options for Vercel deployment.
 
 ## Available Scripts
 

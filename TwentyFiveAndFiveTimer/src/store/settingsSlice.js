@@ -3,11 +3,11 @@ import { createSlice } from '@reduxjs/toolkit';
 // default state
 const initialState = {
     session: {
-        limit  : 0.1,       // timer limit for session in minutes
+        limit  : 25,       // timer limit for session in minutes
         color  : 'green'
     },
     shortBreak: {
-        limit  : 0.05,      // timer limit for session in minutes
+        limit  : 5,      // timer limit for session in minutes
         color  : 'red'
     },
     mode : 'continuous',

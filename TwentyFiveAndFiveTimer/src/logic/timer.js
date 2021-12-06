@@ -33,6 +33,26 @@ const playClip = () => {
 }
 
 /**
+ * moves to next timer state - without incrementing the count
+ */
+ export const nextTimer = () => {
+    // load next session/break interval
+    state.sessionType = getNextSession(state.sessionType);
+    setSessionParams();
+
+    // stop timer if not in continuous mode
+    if ( state.isContinuous == false ) {
+        clearInterval(state.intervalID);
+        dispatch( timer.setStatus( TIMER_STATES.stopped ));
+    }
+
+    // reset timer value to zero
+    dispatch( timer.setValue(0) );
+}
+
+// Public operations
+
+/**
  * Should be called by Timeout callback every TIMER_PERIOD ms.
  */
 const updateTimer = () => {
@@ -52,18 +72,7 @@ const updateTimer = () => {
             dispatch( timer.incrementCount() );
         }
         
-        // load next session/break interval
-        state.sessionType = getNextSession(state.sessionType);
-        setSessionParams();
-        
-        // stop timer if not in continuous mode
-        if ( state.isContinuous == false ) {
-            clearInterval(state.intervalID);
-            dispatch( timer.setStatus( TIMER_STATES.stopped ));
-        }
-
-        // reset timer value to zero
-        dispatch( timer.setValue(0) );
+        nextTimer();
     }
 }
 
