@@ -29,8 +29,8 @@ export const SESSION_TYPES = {
 }
 
 const ALARM_CLIPS = {
-    alarmTone  : "/audio/mixkit-alarm-tone-996.wav",
-    arcadeBeeps: "/audio/mixkit-repeating-arcade-beep-1084.wav"
+    alarmTone  : "./audio/mixkit-alarm-tone-996.wav",
+    arcadeBeeps: "./audio/mixkit-repeating-arcade-beep-1084.wav"
 }
 
 const SESSION_DEFAULTS = new Map();

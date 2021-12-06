@@ -19,7 +19,7 @@ export default function Home() {
       <Head>
         <title>PomoGoTym</title>
         <meta name="description" content="Simple-ish Timer for Timing Work/Break cycles" />
-        <link rel="icon" href="/favicon.png" />
+        <link rel="icon" href="./favicon.png" />
       </Head>
 
       <main className={styles.main}>
