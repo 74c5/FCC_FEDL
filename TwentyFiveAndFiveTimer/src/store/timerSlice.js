@@ -6,7 +6,7 @@ const initialState = {
     label    : 'Session',    // which timer is running
     color    : 'green',
     limit    : 3000,         // current limit  
-    value    : 0,            // current timer value
+    value    : 3000,         // current timer value
     count    : 0,            // number of sessions completed
 };
 

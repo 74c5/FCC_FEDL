@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { MODE_LIST, setSessionLimit, setShortBreakLimit, selectMode } from '../logic/settings';
+import { MODE_LIST, setSessionLimit, resetSessionLimit, setShortBreakLimit, resetShortBreakLimit, selectMode } from '../logic/settings';
 
 import ValueIncrementer from './ValueIncrementer';
 import ValueSelector from './ValueSelector';
@@ -19,9 +19,11 @@ const Settings = ({id}) => {
     return (
         <div id={id} className={styles.main}>
             <ValueIncrementer idPrefix={"session"} title={"Session Length"} 
-                              value={sessionLength} setValue={setSessionLimit}  />
+                              value={sessionLength} setValue={setSessionLimit}  
+                              resetValue={resetSessionLimit} />
             <ValueIncrementer idPrefix={"break"} title={"Break Length"} 
-                              value={breakLength} setValue={setShortBreakLimit} />
+                              value={breakLength} setValue={setShortBreakLimit} 
+                              resetValue={resetShortBreakLimit} />
             <ValueSelector idPrefix={"mode"} title={"Mode"} value={mode} 
                            selection={ MODE_LIST }  onChange={ selectMode } />
             {/* long Break */}

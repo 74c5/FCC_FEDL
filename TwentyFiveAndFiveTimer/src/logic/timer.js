@@ -36,18 +36,20 @@ const playClip = () => {
  * moves to next timer state - without incrementing the count
  */
  export const nextTimer = () => {
-    // load next session/break interval
-    state.sessionType = getNextSession(state.sessionType);
-    setSessionParams();
-
     // stop timer if not in continuous mode
     if ( state.isContinuous == false ) {
         clearInterval(state.intervalID);
         dispatch( timer.setStatus( TIMER_STATES.stopped ));
     }
 
-    // reset timer value to zero
-    dispatch( timer.setValue(0) );
+    // load next session/break interval
+    state.sessionType = getNextSession(state.sessionType);
+    
+    const {label, limit, color, alarm, isContinuous} = getSessionParams(state.sessionType);
+    state.clip         = new Audio(alarm);
+    state.isContinuous = isContinuous;
+    dispatch( timer.setParams( {label, limit, color} ) );
+    dispatch( timer.setValue(limit) );  // reset the timer value
 }
 
 // Public operations
@@ -56,15 +58,14 @@ const playClip = () => {
  * Should be called by Timeout callback every TIMER_PERIOD ms.
  */
 const updateTimer = () => {
-    const { value, limit, label } = store.getState().timer;
+    const value = store.getState().timer.value;
     const now = Date.now();
-    const elapsed = value + now - state.tick;
+    const remaining = value - (now - state.tick);
+
+    dispatch( timer.setValue( remaining ) );
     state.tick = now;
 
-    if (elapsed < limit) { 
-        dispatch( timer.setValue( elapsed ) );
-
-    } else { // timer has expired
+    if (remaining <= 0) {   // timer has expired
         // set off alarm
         playClip(state.alarm);
         // increment counter
@@ -92,19 +93,29 @@ export const toggleTimer = () => {
 }
 
 export const setSessionParams = () => {
-    const {label, limit, color, alarm, isContinuous} = getSessionParams(state.sessionType);
+    const {limit: prevLimit, value} = store.getState().timer;
+    const {label, limit: newLimit, color, alarm, isContinuous} = getSessionParams(state.sessionType);
+
     state.clip         = new Audio(alarm);
     state.isContinuous = isContinuous;
-    dispatch( timer.setParams( {label, limit, color} ) );
+    dispatch( timer.setParams( {label, limit: newLimit, color} ) );
+
+    if (prevLimit != newLimit) {
+        dispatch( timer.setValue(value + (newLimit - prevLimit)) );  // this could create a race condition with the Timeout (running every second)...
+    }
 }
 
 export const stopTimer = () => {
     clearInterval(state.intervalID);
-    dispatch( timer.setValue( 0 ) );
+    dispatch( timer.setValue( store.getState().timer.limit ) );
     dispatch( timer.setStatus( TIMER_STATES.stopped ) );
 };
 
 export const initialise = () => {
     state.sessionType = SESSION_TYPES.session;
-    setSessionParams();
+    const {label, limit, color, alarm, isContinuous} = getSessionParams(state.sessionType);
+    state.clip         = new Audio(alarm);
+    state.isContinuous = isContinuous;
+    dispatch( timer.setParams( {label, limit, color} ) );
+    dispatch( timer.setValue(limit) );  // reset the timer value
 }

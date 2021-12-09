@@ -42,19 +42,29 @@ SESSION_DEFAULTS.set(SESSION_TYPES.shortBreak, {label: 'Break',   limit: 5,  ala
 // application functions
 /**
  * @param {integer} value // time in minutes for the session
- *                        // a value <= 0 will reset the time to default
+ *                        // values limited between 1 and 60
  */
 export const setSessionLimit = (value) => {
-    dispatch( settings.setSessionLimit( (value > 0)? value : SESSION_DEFAULTS.get(SESSION_TYPES.session).limit ) );
+    //dispatch( settings.setSessionLimit( (value > 0)? value : SESSION_DEFAULTS.get(SESSION_TYPES.session).limit ) );
+    dispatch( settings.setSessionLimit( (value < 1)? 1 : ( (value > 60)? 60 : value ) ));
 };
+
+export const resetSessionLimit = () => {
+    dispatch( settings.setSessionLimit( SESSION_DEFAULTS.get(SESSION_TYPES.session).limit ) );
+}
 
 /**
  * @param {integer} value // time in minutes for the session
- *                        // a value <= 0 will reset the time to default
+ *                        // values limited between 1 and 60
  */
 export const setShortBreakLimit = (value) => {
-    dispatch( settings.setShortBreakLimit( (value > 0)? value : SESSION_DEFAULTS.get(SESSION_TYPES.shortBreak).limit ) );
+    dispatch( settings.setShortBreakLimit(  (value < 1)? 1 : ( (value > 60)? 60 : value ) ) );
 };
+
+export const resetShortBreakLimit = () => {
+    dispatch( settings.setSessionLimit( SESSION_DEFAULTS.get(SESSION_TYPES.shortBreak).limit ) );
+}
+
 
 export const selectMode = (mode) => {
     dispatch( settings.setMode(mode) );

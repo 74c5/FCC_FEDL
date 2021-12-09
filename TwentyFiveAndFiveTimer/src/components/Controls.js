@@ -39,10 +39,10 @@ const Controls = ({id}) => {
 
     return (
         <div id={id} className={styles.controls}>
-            <IconButton id={"play-pause"} icon={playIcon}      onClick={playPause} />
-            <IconButton id={"stop"}       icon={faStop}        onClick={stop} />
-            <IconButton id={"next"}       icon={faStepForward} onClick={next} />
-            <IconButton id={"settings"}   icon={faCog}         onClick={showSettings} />
+            <IconButton id={"start-pause"} icon={playIcon}      onClick={playPause} />
+            <IconButton id={"stop"}        icon={faStop}        onClick={stop} />
+            <IconButton id={"next"}        icon={faStepForward} onClick={next} />
+            <IconButton id={"settings"}    icon={faCog}         onClick={showSettings} />
         </div>
     );
 };

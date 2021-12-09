@@ -4,7 +4,7 @@ import IconButton from './IconButton';
 
 import styles from '../styles/ValueIncrementer.module.css';
 
-const incrementer = ({idPrefix, title, value, setValue}) => {
+const incrementer = ({idPrefix, title, value, setValue, resetValue}) => {
 
     const increment = (event) => {
         event.preventDefault();
@@ -19,7 +19,7 @@ const incrementer = ({idPrefix, title, value, setValue}) => {
     const reset = (event) => {
         event.preventDefault();
         event.stopPropagation();
-        setValue(-1);
+        resetValue();
     };
 
     return (
@@ -27,7 +27,7 @@ const incrementer = ({idPrefix, title, value, setValue}) => {
             <h3 id={`${idPrefix}-label`}>{title}</h3>
             <div className={styles.modifier}>
                 <IconButton id={`${idPrefix}-increment`} icon={faArrowUp} onClick={increment} />
-                <div className={styles.value}>{value}</div>
+                <div id={`${idPrefix}-length`} className={styles.value}>{value}</div>  {/* would prefer to use id = "<prefix> + value" */}
                 <IconButton id={`${idPrefix}-decrement`} icon={faArrowDown} onClick={decrement} />
                 <IconButton id={`${idPrefix}-reset`} icon={faUndoAlt}   onClick={reset} />
             </div>
