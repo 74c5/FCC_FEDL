@@ -6,7 +6,19 @@
     - [x] alarm
         -  https://mixkit.co/ Classic short alarm 
 
-    - next/skip button - should not increment the count...
+    - [x] next/skip button - should not increment the count...
+
+- [x] reverse changes to pomogotym
+
+- start again using freecode camp rubrik (basic app)
+    - change how settings modal is show (add note to file)
+    - hide off screen and then animate left to right
+    - finish fixing timer to work in count-down mode
+        - reset time isn't working
+        - think I need to rework initialisation of state at app startup?
+
+- migrate demos to 74c5.github.io/demos/FEDL
+    - turn off github pages for FEDL
 
 - https://www.freecodecamp.org/news/designing-keyboard-accessibility-for-complex-react-experiences/
 
@@ -16,7 +28,7 @@ Advanced Settings - colors/ theme?
 
 Blinking clock face on pause?
 
-Color highlighting for each session type
+-[x] Color highlighting for each session type
 
 display for mode on main screen
 
