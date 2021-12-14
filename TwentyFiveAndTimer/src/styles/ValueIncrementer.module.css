@@ -1,0 +1,24 @@
+.main {
+    width: inherit;
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main>h3 {
+    margin: 0;
+}
+
+.modifier {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.value {
+    display: inline-block;
+    font-size: 1.5rem;
+}
