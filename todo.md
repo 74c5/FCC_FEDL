@@ -1,20 +1,5 @@
 ## TwentyFive and Five Timer
 
-- start again using freecode camp rubrik (basic app)
-    - [x] busy with index.js... basic framework.
-    - [x] put code into src dir
-    - [x] remove settings modal is show (add note to file)
-    - [x] finish fixing timer to work in count-down mode
-        - reset time isn't working
-        - think I need to rework initialisation of state at app startup?
-    - [x] beeper is not working correctly...
-        - adding a notification component
-
-        - refactor as <Notifications> with <Audio> subcomponent(s)
-            - player - has dummy output (null) - but is updated by commands from Model interface
-                - notifications configures sounds into DOM (preload=auto) only once
-            - maybe remove the fancyness?
-
 - migrate demos to 74c5.github.io/demos/FEDL
     - turn off github pages for FEDL
 
@@ -26,12 +11,7 @@ Advanced Settings - colors/ theme?
 
 Blinking clock face on pause?
 
--[x] Color highlighting for each session type
-
-display for mode on main screen
-
-- synchronise initialisation constants accross all files...
-    - [x] hooks are in app.initialise()
+- display for mode on main screen
 
 Retain settings in a cookie? or browser cache?
 
