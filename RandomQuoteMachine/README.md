@@ -1,6 +1,6 @@
 # Random Quote Machine - Project 1
 
-[Demo](https://74c5.github.io/FCC_FrontEndDevelopmentLibraries/RandomQuoteMachine/snapshot/)
+[Demo](https://74c5.github.io/demos/FEDL/RandomQuoteMachine/)
 
 Project 1 of freecodecamp.org 'Front End Developement Libraries' course. 
 

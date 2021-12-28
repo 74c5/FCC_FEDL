@@ -1,6 +1,6 @@
 # Markdown Previewer - Project 2
 
-[Demo](https://74c5.github.io/FCC_FrontEndDevelopmentLibraries/MarkdownPreviewer/snapshot/)
+[Demo](https://74c5.github.io/demos/FEDL/MarkdownPreviewer/)
 
 Project 2 of freecodecamp.org 'Front End Developement Libraries' course. 
 

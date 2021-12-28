@@ -9,18 +9,18 @@ const DEFAULTS = {
 
 // initial state
 const initialState = {
-    session : { length : 10/60,
+    session : { length : 25,    // in minutes
                 color  : 'green',
                 label  : 'session',
     },
-    break   : { length : 5/60,
+    break   : { length : 5,    // in minutes
                 color  : 'red',
                 label  : 'break',
     },
     timer   : { status     : TIMER_STATES.stopped,
                 alarm      : ALARM_STATES.reset,
                 label      : 'session',
-                length     : 25*60000/150,      // in ms
+                length     : 25*60000,      // in ms
                 color      : 'green',
                 value      : 0,
                 intervalId : 0,             // timeout id, increment the value

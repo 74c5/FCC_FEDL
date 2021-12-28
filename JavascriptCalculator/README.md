@@ -1,6 +1,6 @@
 # Javascript Calculator - Project 4
 
-[Demo](https://74c5.github.io/FCC_FrontEndDevelopmentLibraries/JavascriptCalculator/snapshot/)
+[Demo](https://74c5.github.io/demos/FEDL/JavascriptCalculator/)
 
 Project 4 of freecodecamp.org 'Front End Developement Libraries' course. 
 

@@ -1,6 +1,6 @@
 # Drum Machine - Project 3
 
-[Demo](https://74c5.github.io/FCC_FrontEndDevelopmentLibraries/DrumMachine/snapshot/)
+[Demo](https://74c5.github.io/demos/FEDL/DrumMachine/)
 
 Project 3 of freecodecamp.org 'Front End Developement Libraries' course. 
 

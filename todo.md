@@ -1,6 +1,6 @@
 ## TwentyFive and Five Timer
 
-- migrate demos to 74c5.github.io/demos/FEDL
+- [x] migrate demos to 74c5.github.io/demos/FEDL
     - turn off github pages for FEDL
 
 - https://www.freecodecamp.org/news/designing-keyboard-accessibility-for-complex-react-experiences/

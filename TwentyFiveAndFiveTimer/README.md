@@ -22,14 +22,19 @@ Fonts:
     - Conthrax by Typodermic Fonts
 - [Mixkit](https://mixkit.co/) for audio clips, search
     - alarm tone
-    - repeating arcade beep
  
 
 ## Lessons Learned / Observations
 
 There was a fair bit of jiggery pokery to get next.js and redux to play nicely. I don't really need an accurate rendering on the server side.
 
-There are some design decisions that I would not take, if the rubrik did not force me to. E.g. hiding the settings modal offscreen when not shown (react allows you to just return 'null' instead).
+There are some design decisions that I would not take, if the rubrik did not force me to. E.g. settings would be hidden in a Modal (nulled when not shown).
+
+Final Rubrik test will not pass, because the test does not include a delay between button press and checking playback has stopped/reset. My implementation uses the app state (redux) to determine whether the audio should be played and/or reset. Redux and react updates are asynchronous, so the test case is excuting to completion before my app has completed reacting to the button press.
+
+I lumped a lot more functionality than together than usual. This was to try out reducing the number of files (since the project was quite simple). i.e. There are no controller elements and all of the logic is contained in the store (of which there is only one). This is starting to get unwieldy, but made things easier at the start. Going forward, I think I may start more simply, and refactor to more modules as complexity is added. There is also a fair bit of (non-ideal) jank here - e.g. position and definition of 'timerUpdateCallback' feels like a circular reference, and can only be defined where 'store' is in scope.
+
+I should probably investigate architectures other than MVC.
 
 ## Creation Notes
 
