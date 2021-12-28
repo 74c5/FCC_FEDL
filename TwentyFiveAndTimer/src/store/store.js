@@ -1,7 +1,7 @@
 import { createSlice, configureStore } from '@reduxjs/toolkit'
 
-export const TIMER_STATES = { running: 'running', stopped: 'stopped'};
-
+export const TIMER_STATES = { running: 'running', stopped: 'stopped', paused: 'paused'};
+export const ALARM_STATES = { alarm : 'alarm', none: 'none', reset: 'reset'};
 const DEFAULTS = {
     session : { length : 25 },
     break   : { length : 5 }
@@ -18,6 +18,7 @@ const initialState = {
                 label  : 'break',
     },
     timer   : { status     : TIMER_STATES.stopped,
+                alarm      : ALARM_STATES.reset,
                 label      : 'session',
                 length     : 25*60000/150,      // in ms
                 color      : 'green',
@@ -25,11 +26,10 @@ const initialState = {
                 intervalId : 0,             // timeout id, increment the value
                 tick       : 0,             // time of previous timer check
     },
-    temp: "hello world",
+    notify: {
+        queue: [],
+    }
 };
-
-// reference to HTML audio clip
-const audio = (process.browser)? document.querySelector('#beep') : null;
 
 const slice = createSlice({
     name: 'app',
@@ -56,28 +56,33 @@ const slice = createSlice({
         toggleTimer : {
             reducer: (state, action) => { 
                 // calculate updated value of the timer
-                if (state.timer.status == TIMER_STATES.stopped) {
-                    // start the timer
-                    state.timer.tick = Date.now();
-                    state.timer.intervalId = setInterval(timerUpdateCallback, 1000);
-                    state.timer.status = TIMER_STATES.running;
-                } else { // running
-                    // update the timer value - breaks test rubrik
+//console.log('toggle', state.timer.status);
+                if (state.timer.status == TIMER_STATES.running ) {
+                    //this way of updating the timer value - breaks test rubrik
                     //state.timer.value += action.payload - state.timer.tick;
                     //state.timer.tick = action.payload;
 
                     clearInterval(state.timer.intervalId);
-                    state.timer.status = TIMER_STATES.stopped;
+                    state.timer.status = TIMER_STATES.paused;
+
+                } else {
+                    state.timer.tick = action.payload;
+                    state.timer.intervalId = setInterval(timerUpdateCallback, 1000);
+                    state.timer.status = TIMER_STATES.running;
+                    state.timer.alarm  = ALARM_STATES.none;
                 }
             },
             prepare: () => ({ payload: Date.now() }),
         },
         resetTimer : {
-            reducer: (state, action) => { 
-                if (state.timer.status == TIMER_STATES.running) {
+            reducer: (state) => { 
+                //if ( state.timer.status != TIMER_STATES.stopped ) {
                     state.timer.status = TIMER_STATES.stopped;
+                //}
+                //if ( state.timer.status == TIMER_STATES.running ) {
                     clearInterval(state.timer.intervalId);
-                }
+                //}
+                state.timer.alarm  = ALARM_STATES.reset;
                 state.timer.length = DEFAULTS.session.length*60000;
                 state.timer.label  = state.session.label;
                 state.timer.color  = state.session.color;
@@ -85,41 +90,12 @@ const slice = createSlice({
 
                 state.session.length = DEFAULTS.session.length;
                 state.break.length = DEFAULTS.break.length;
-
-                // rewind alarm clip playing
-                //const audio = document.querySelector("#beep");
-                if ( audio ) {
-                    //audio.load();
-                    audio.pause();
-                    audio.currentTime = 0;
-                } else {
-                    console.log('Error unable to pause clip with id: "beep"');
-                }
             },
         },
         updateTimer : {
             reducer: (state, action) => { 
-                const value = state.timer.value + (action.payload - state.timer.tick);
-                const remaining = state.timer.length - value;
-
-                if (remaining >= 0) {    
-                    // advance the timer
-                    state.timer.value = value;
-                    state.timer.tick  = action.payload;
-                
-                } else { // timer has expired
-                    // rewind and start alarm playing
-                    // const audio = document.querySelector("#beep");
-                    if ( audio ) {
-                        //audio.load();
-                        //audio.volume = volume;
-                        audio.currentTime = 0;
-                        audio.play();
-                    } else {
-                        console.log('Error unable to play clip with id: "beep"');
-                    }
-                    
-                    // set-up next session
+//console.log('update', state.timer.status, state.timer.alarm, state.timer.value, state.timer.length, action.payload, state.timer.tick);
+                if ( state.timer.value >= state.timer.length ) { // the last tick cause timer to over run
                     if (state.timer.label == 'session') {
                         state.timer.label  = state.break.label;
                         state.timer.color  = state.break.color;
@@ -130,7 +106,22 @@ const slice = createSlice({
                         state.timer.length = state.session.length * 60000;
                     } 
                     state.timer.value = 0;
-                    state.timer.tick  = action.payload + remaining;
+                    state.timer.tick   = action.payload; // + remaining;
+                    state.timer.alarm  = ALARM_STATES.none;
+                    
+                } else { // this is a normal tick
+                    const value = state.timer.value + (action.payload - state.timer.tick);
+                    
+                    if ( value < state.timer.length ) {
+                        // advance the timer
+                        state.timer.value = value;
+                        state.timer.tick  = action.payload;
+                    
+                    } else { // timer has expired
+                        state.timer.value  = state.timer.length;
+                        state.timer.tick   = action.payload; // + state.timer.length - value;
+                        state.timer.alarm  = ALARM_STATES.alarm;
+                    }
                 }
             },
             prepare: () => ({ payload: Date.now() }),

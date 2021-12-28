@@ -10,12 +10,6 @@ import { actions, TIMER_STATES } from '../store/store';
 
 import styles from '../styles/Clockface.module.css'
 
-const makeOnClick = (dispatch, action) => (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    dispatch(action());
-};
-
 const Clockface = ({id}) => {
     const dispatch = useDispatch();
 
@@ -30,10 +24,11 @@ const Clockface = ({id}) => {
     const sec   = String( Math.floor((remaining / 1000) % 60) ).padStart(2., '0');
     
     const playIcon = (status == TIMER_STATES.running) ? faStop : faPlay;
+    
     const togglePlay = (event) => {
+        dispatch(actions.toggleTimer());
         event.preventDefault();
         event.stopPropagation();
-        dispatch(actions.toggleTimer());
     }
 
     return (

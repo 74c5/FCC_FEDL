@@ -1,21 +1,19 @@
 ## TwentyFive and Five Timer
 
-- start hooking up logic
-    - [x] configure...
-    - [x] set custom timer periods
-    - [x] alarm
-        -  https://mixkit.co/ Classic short alarm 
-
-    - [x] next/skip button - should not increment the count...
-
-- [x] reverse changes to pomogotym
-
 - start again using freecode camp rubrik (basic app)
-    - change how settings modal is show (add note to file)
-    - hide off screen and then animate left to right
-    - finish fixing timer to work in count-down mode
+    - [x] busy with index.js... basic framework.
+    - [x] put code into src dir
+    - [x] remove settings modal is show (add note to file)
+    - [x] finish fixing timer to work in count-down mode
         - reset time isn't working
         - think I need to rework initialisation of state at app startup?
+    - [x] beeper is not working correctly...
+        - adding a notification component
+
+        - refactor as <Notifications> with <Audio> subcomponent(s)
+            - player - has dummy output (null) - but is updated by commands from Model interface
+                - notifications configures sounds into DOM (preload=auto) only once
+            - maybe remove the fancyness?
 
 - migrate demos to 74c5.github.io/demos/FEDL
     - turn off github pages for FEDL
